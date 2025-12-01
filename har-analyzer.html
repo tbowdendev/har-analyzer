@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAR Analyzer</title>
+    <style>
+        :root {
+            --color-bg-main: #0a0c14;
+            --color-bg-elevated: #111318;
+            --color-bg-card: rgba(25, 28, 36, 0.6);
+            --color-bg-card-hover: rgba(35, 38, 46, 0.7);
+            --glass-bg: rgba(25, 28, 36, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --color-text-primary: #e8eaf0;
+            --color-text-secondary: #9ca3af;
+            --color-text-muted: #6b7280;
+            --color-text-accent: #a78bfa;
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --color-error: #ef4444;
+            --color-info: #3b82f6;
+            --color-2xx: #10b981;
+            --color-3xx: #3b82f6;
+            --color-4xx: #f59e0b;
+            --color-5xx: #ef4444;
+            --bg-gradient-1: rgba(102, 126, 234, 0.15);
+            --bg-gradient-2: rgba(118, 75, 162, 0.15);
+            --bg-gradient-3: rgba(75, 156, 254, 0.1);
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'Fira Code', 'Consolas', 'Monaco', monospace;
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1)
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--color-bg-main);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            overflow-x: hidden
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, var(--bg-gradient-1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, var(--bg-gradient-2) 0%, transparent 50%), radial-gradient(circle at 40% 20%, var(--bg-gradient-3) 0%, transparent 50%);
+            background-size: 200% 200%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -1
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%
+            }
+
+            50% {
+                background-position: 100% 50%
+            }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-md);
+            letter-spacing: -0.025em
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-xl)
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+            padding: var(--space-xl) 0
+        }
+
+        .header-subtitle {
+            color: var(--color-text-secondary);
+            font-size: 1.125rem;
+            margin-top: var(--space-sm)
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-2xl)
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            backdrop-filter: blur(10px);
+            transition: all var(--transition-base);
+            cursor: pointer
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--glass-shadow)
+        }
+
+        .stat-card.active {
+            border: 2px solid var(--color-text-accent);
+            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2), var(--glass-shadow);
+            transform: translateY(-2px)
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-xs)
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-text-primary)
+        }
+
+        .stat-gradient {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .upload-zone {
+            background: var(--glass-bg);
+            border: 2px dashed var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            backdrop-filter: blur(10px);
+            margin-bottom: var(--space-2xl)
+        }
+
+        .upload-zone:hover,
+        .upload-zone.drag-over {
+            border-color: var(--color-text-accent);
+            background: var(--color-bg-card-hover);
+            transform: scale(1.01)
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-md);
+            opacity: 0.8
+        }
+
+        .upload-text {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-sm)
+        }
+
+        .upload-hint {
+            color: var(--color-text-muted);
+            font-size: 0.875rem
+        }
+
+        .hidden {
+            display: none !important
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: var(--space-2xl)
+        }
+
+        .loading.active {
+            display: block
+        }
+
+        .spinner {
+            border: 4px solid var(--glass-border);
+            border-top: 4px solid var(--color-text-accent);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto var(--space-lg)
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg)
+            }
+
+            100% {
+                transform: rotate(360deg)
+            }
+        }
+
+        .loading-text {
+            color: var(--color-text-secondary);
+            font-size: 1.125rem
+        }
+
+        .controls {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+            flex-wrap: wrap
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative
+        }
+
+        .search-input {
+            width: 100%;
+            padding: var(--space-md) var(--space-md) var(--space-md) 3rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            color: var(--color-text-primary);
+            font-size: 1rem;
+            font-family: var(--font-sans);
+            transition: all var(--transition-base);
+            backdrop-filter: blur(10px)
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--color-text-accent);
+            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.1)
+        }
+
+        .search-icon {
+            position: absolute;
+            left: var(--space-md);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-text-muted);
+            pointer-events: none
+        }
+
+        .btn {
+            padding: var(--space-md) var(--space-xl);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 0.9375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            font-family: var(--font-sans);
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            white-space: nowrap
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3)
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4)
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            color: var(--color-text-primary);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px)
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-bg-card-hover);
+            transform: translateY(-2px)
+        }
+
+        .btn-toggle {
+            background: var(--glass-bg);
+            color: var(--color-text-primary);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px)
+        }
+
+        .btn-toggle:hover {
+            background: var(--color-bg-card-hover);
+            transform: translateY(-2px)
+        }
+
+        .btn-toggle.active {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: transparent
+        }
+
+        .endpoint-groups {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg)
+        }
+
+        .endpoint-group {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: all var(--transition-base)
+        }
+
+        .endpoint-group:hover {
+            box-shadow: var(--glass-shadow)
+        }
+
+        .endpoint-group.highlighted {
+            border: 2px solid var(--color-text-accent);
+            background: var(--color-bg-card)
+        }
+
+        .endpoint-group.noise {
+            opacity: 0.5
+        }
+
+        .endpoint-header {
+            padding: var(--space-lg);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--color-bg-card);
+            transition: all var(--transition-fast)
+        }
+
+        .endpoint-header:hover {
+            background: var(--color-bg-card-hover)
+        }
+
+        .endpoint-info {
+            flex: 1
+        }
+
+        .endpoint-path {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-xs);
+            font-family: var(--font-mono);
+            word-break: break-all
+        }
+
+        .endpoint-meta {
+            display: flex;
+            gap: var(--space-md);
+            align-items: center;
+            flex-wrap: wrap
+        }
+
+        .badge {
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em
+        }
+
+        .badge-count {
+            background: var(--glass-bg);
+            color: var(--color-text-secondary);
+            border: 1px solid var(--glass-border)
+        }
+
+        .badge-error {
+            background: var(--color-error);
+            color: white
+        }
+
+        .badge-slow {
+            background: var(--color-warning);
+            color: white
+        }
+
+        .badge-noise {
+            background: var(--color-text-muted);
+            color: white
+        }
+
+        .badge-no-response {
+            background: #9333ea;
+            color: white
+        }
+
+        .expand-icon {
+            font-size: 1.25rem;
+            color: var(--color-text-muted);
+            transition: transform var(--transition-base)
+        }
+
+        .endpoint-group.expanded .expand-icon {
+            transform: rotate(180deg)
+        }
+
+        .api-calls {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-slow)
+        }
+
+        .endpoint-group.expanded .api-calls {
+            max-height: 10000px
+        }
+
+        .api-call {
+            padding: var(--space-lg);
+            border-top: 1px solid var(--glass-border);
+            background: var(--color-bg-elevated)
+        }
+
+        .api-call-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+            flex-wrap: wrap
+        }
+
+        .http-method {
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            text-transform: uppercase
+        }
+
+        .method-get {
+            background: var(--color-success);
+            color: white
+        }
+
+        .method-post {
+            background: var(--color-info);
+            color: white
+        }
+
+        .method-put,
+        .method-patch {
+            background: var(--color-warning);
+            color: white
+        }
+
+        .method-delete {
+            background: var(--color-error);
+            color: white
+        }
+
+        .status-badge {
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.75rem;
+            font-family: var(--font-mono)
+        }
+
+        .status-2xx {
+            background: var(--color-2xx);
+            color: white
+        }
+
+        .status-3xx {
+            background: var(--color-3xx);
+            color: white
+        }
+
+        .status-4xx {
+            background: var(--color-4xx);
+            color: white
+        }
+
+        .status-5xx {
+            background: var(--color-5xx);
+            color: white
+        }
+
+        .response-viewer {
+            margin-top: var(--space-md);
+            background: var(--color-bg-main);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: var(--space-md)
+        }
+
+        .response-body {
+            background: var(--color-bg-main);
+            color: var(--color-text-primary);
+            padding: var(--space-md);
+            border-radius: var(--radius-sm);
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            line-height: 1.6;
+            max-height: 500px;
+            overflow-y: auto
+        }
+
+        .json-key {
+            color: #a78bfa
+        }
+
+        .json-string {
+            color: #34d399
+        }
+
+        .json-number {
+            color: #60a5fa
+        }
+
+        .json-boolean {
+            color: #f59e0b
+        }
+
+        .json-null {
+            color: #ef4444
+        }
+
+        .scroll-top-button {
+            position: fixed;
+            bottom: calc(var(--space-xl) + 140px);
+            right: var(--space-xl);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: all var(--transition-base);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .scroll-top-button.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all
+        }
+
+        .scroll-top-button:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5)
+        }
+
+        .theme-button {
+            position: fixed;
+            bottom: calc(var(--space-xl) + 70px);
+            right: var(--space-xl);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            transition: all var(--transition-base);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .theme-button:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5)
+        }
+
+        .about-button {
+            position: fixed;
+            bottom: var(--space-xl);
+            right: var(--space-xl);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            transition: all var(--transition-base);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .about-button:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5)
+        }
+
+        .about-modal {
+            position: fixed;
+            bottom: calc(var(--space-xl) + 70px);
+            right: var(--space-xl);
+            width: 350px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            backdrop-filter: blur(20px);
+            box-shadow: var(--glass-shadow);
+            opacity: 0;
+            transform: translateY(10px) scale(0.95);
+            pointer-events: none;
+            transition: all var(--transition-base);
+            z-index: 99
+        }
+
+        .about-modal.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all
+        }
+
+        .about-modal-header {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-lg);
+            text-align: center
+        }
+
+        .about-modal-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md)
+        }
+
+        .about-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+            font-size: 0.875rem
+        }
+
+        .about-item strong {
+            color: var(--color-text-accent);
+            font-weight: 600
+        }
+
+        .about-version {
+            text-align: center;
+            padding-top: var(--space-md);
+            color: var(--color-text-muted);
+            font-size: 0.8125rem;
+            font-family: var(--font-mono)
+        }
+
+        .theme-modal {
+            position: fixed;
+            bottom: calc(var(--space-xl) + 140px);
+            right: var(--space-xl);
+            width: 320px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            backdrop-filter: blur(20px);
+            box-shadow: var(--glass-shadow);
+            opacity: 0;
+            transform: translateY(10px) scale(0.95);
+            pointer-events: none;
+            transition: all var(--transition-base);
+            z-index: 99;
+            max-height: 500px;
+            overflow-y: auto
+        }
+
+        .theme-modal.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all
+        }
+
+        .theme-modal-header {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-lg);
+            text-align: center
+        }
+
+        .theme-options {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm)
+        }
+
+        .theme-option {
+            padding: var(--space-md);
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md)
+        }
+
+        .theme-option:hover {
+            border-color: var(--color-text-accent);
+            transform: translateX(4px)
+        }
+
+        .theme-option.active {
+            border-color: var(--color-text-accent);
+            background: var(--color-bg-card)
+        }
+
+        .theme-preview {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            flex-shrink: 0
+        }
+
+        .theme-info {
+            flex: 1
+        }
+
+        .theme-name {
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin-bottom: 2px;
+            font-size: 0.9rem
+        }
+
+        .theme-description {
+            font-size: 0.7rem;
+            color: var(--color-text-muted)
+        }
+
+        .terminal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition-base)
+        }
+
+        .terminal-backdrop.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            pointer-events: auto
+        }
+
+        .terminal-modal {
+            background: #000000;
+            border: 3px solid #00ff00;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: var(--space-xl);
+            font-family: 'Courier New', Consolas, Monaco, monospace;
+            color: #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3), inset 0 0 60px rgba(0, 255, 0, 0.05), 0 0 40px rgba(0, 255, 0, 0.2);
+            position: relative;
+            animation: terminalGlitch 0.3s ease-out
+        }
+
+        @keyframes terminalGlitch {
+            0% {
+                opacity: 0;
+                transform: scale(0.95) translateY(-20px)
+            }
+
+            50% {
+                opacity: 0.8
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0)
+            }
+        }
+
+        .terminal-header {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-lg);
+            border-bottom: 2px solid #00ff00
+        }
+
+        .ascii-art {
+            font-size: 2rem;
+            line-height: 1.2;
+            font-weight: bold;
+            white-space: pre;
+            text-align: center;
+            animation: rgbCycle 8s linear infinite;
+            letter-spacing: 0.15em
+        }
+
+        @keyframes rgbCycle {
+            0% {
+                color: #ff0000
+            }
+
+            16% {
+                color: #ff7f00
+            }
+
+            33% {
+                color: #ffff00
+            }
+
+            50% {
+                color: #00ff00
+            }
+
+            66% {
+                color: #00ffff
+            }
+
+            83% {
+                color: #8b00ff
+            }
+
+            100% {
+                color: #ff0000
+            }
+        }
+
+        .terminal-content {
+            line-height: 1.8;
+            font-size: 0.9375rem
+        }
+
+        .terminal-prompt {
+            color: #00ffff;
+            font-weight: bold;
+            margin-top: var(--space-lg);
+            margin-bottom: var(--space-sm);
+            text-shadow: 0 0 5px #00ffff
+        }
+
+        .terminal-text {
+            color: #00ff00;
+            padding-left: var(--space-md);
+            margin-bottom: var(--space-xs)
+        }
+
+        .terminal-close-btn {
+            margin-top: var(--space-xl);
+            padding: var(--space-md) var(--space-xl);
+            background: #000000;
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            font-family: 'Courier New', Consolas, Monaco, monospace;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all var(--transition-fast);
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 0 5px #00ff00
+        }
+
+        .terminal-close-btn:hover {
+            background: #00ff00;
+            color: #000000;
+            box-shadow: 0 0 15px #00ff00;
+            text-shadow: none
+        }
+
+        .terminal-modal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15) 1px, transparent 1px, transparent 2px);
+            pointer-events: none;
+            z-index: 1
+        }
+
+        .terminal-modal>* {
+            position: relative;
+            z-index: 2
+        }
+
+        /* Documentation Modal Styles */
+        .doc-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            width: 90%;
+            max-width: 800px;
+            height: 80vh;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 0;
+            backdrop-filter: blur(20px);
+            box-shadow: var(--glass-shadow);
+            opacity: 0;
+            pointer-events: none;
+            transition: all var(--transition-base);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column
+        }
+
+        .doc-modal.active {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: all
+        }
+
+        .doc-header {
+            padding: var(--space-lg);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .doc-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-text-primary)
+        }
+
+        .doc-close {
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color var(--transition-fast)
+        }
+
+        .doc-close:hover {
+            color: var(--color-text-primary)
+        }
+
+        .doc-body {
+            flex: 1;
+            display: flex;
+            overflow: hidden
+        }
+
+        .doc-sidebar {
+            width: 200px;
+            border-right: 1px solid var(--glass-border);
+            padding: var(--space-md);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+            background: rgba(0, 0, 0, 0.2)
+        }
+
+        .doc-tab-btn {
+            padding: var(--space-md);
+            text-align: left;
+            background: none;
+            border: none;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+            font-weight: 600
+        }
+
+        .doc-tab-btn:hover {
+            background: var(--glass-border);
+            color: var(--color-text-primary)
+        }
+
+        .doc-tab-btn.active {
+            background: var(--color-text-accent);
+            color: white
+        }
+
+        .doc-content-area {
+            flex: 1;
+            padding: var(--space-xl);
+            overflow-y: auto
+        }
+
+        .doc-tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease
+        }
+
+        .doc-tab-content.active {
+            display: block
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .doc-section {
+            margin-bottom: var(--space-2xl)
+        }
+
+        .doc-section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-md);
+            padding-bottom: var(--space-sm);
+            border-bottom: 1px solid var(--glass-border)
+        }
+
+        .doc-table {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        .doc-table th,
+        .doc-table td {
+            padding: var(--space-md);
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border)
+        }
+
+        .doc-table th {
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+            text-transform: uppercase
+        }
+
+        .doc-table td {
+            color: var(--color-text-secondary)
+        }
+
+        .doc-badge-preview {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 700;
+            font-family: var(--font-mono)
+        }
+
+        .doc-feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-lg)
+        }
+
+        .doc-feature-card {
+            background: var(--color-bg-elevated);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--glass-border)
+        }
+
+        .doc-feature-icon {
+            font-size: 2rem;
+            margin-bottom: var(--space-md)
+        }
+
+        .doc-feature-title {
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-sm)
+        }
+
+        .doc-feature-desc {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5
+        }
+
+        @media (max-width:768px) {
+            .container {
+                padding: var(--space-md)
+            }
+
+            h1 {
+                font-size: 2rem
+            }
+
+            .stats-bar {
+                grid-template-columns: 1fr
+            }
+
+            .controls {
+                flex-direction: column
+            }
+
+            .search-box {
+                min-width: 100%
+            }
+
+            .scroll-top-button,
+            .theme-button,
+            .about-button {
+                bottom: var(--space-md);
+                right: var(--space-md)
+            }
+
+            .scroll-top-button {
+                bottom: calc(var(--space-md) + 120px)
+            }
+
+            .theme-button {
+                bottom: calc(var(--space-md) + 60px)
+            }
+
+            .about-modal {
+                bottom: calc(var(--space-md) + 60px);
+                right: var(--space-md);
+                left: var(--space-md);
+                width: auto
+            }
+
+            .theme-modal {
+                bottom: calc(var(--space-md) + 120px);
+                right: var(--space-md);
+                left: var(--space-md);
+                width: auto
+            }
+
+            .ascii-art {
+                font-size: 1rem
+            }
+
+            .doc-modal {
+                width: 100%;
+                height: 100%;
+                border-radius: 0
+            }
+
+            .doc-body {
+                flex-direction: column
+            }
+
+            .doc-sidebar {
+                width: 100%;
+                flex-direction: row;
+                overflow-x: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--glass-border)
+            }
+
+            .doc-tab-btn {
+                white-space: nowrap
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🔍 HAR Analyzer</h1>
+            <p class="header-subtitle">Cloud Support Tool</p>
+        </header>
+        <div class="stats-bar hidden" id="statsBar">
+            <div class="stat-card" data-filter="all" id="statCardAll">
+                <div class="stat-label">Total Entries</div>
+                <div class="stat-value stat-gradient" id="statTotalCalls">0</div>
+            </div>
+            <div class="stat-card" data-filter="none" id="statCardEndpoints">
+                <div class="stat-label">Endpoints</div>
+                <div class="stat-value" id="statEndpoints">0</div>
+            </div>
+            <div class="stat-card" data-filter="errors" id="statCardErrors">
+                <div class="stat-label">Errors Detected</div>
+                <div class="stat-value" style="color:var(--color-error);" id="statErrors">0</div>
+            </div>
+            <div class="stat-card" data-filter="slow" id="statCardSlow">
+                <div class="stat-label">Slow Requests</div>
+                <div class="stat-value" style="color:var(--color-warning);" id="statSlowRequests">0</div>
+            </div>
+        </div>
+        <div class="upload-zone" id="uploadZone">
+            <div class="upload-icon">📁</div>
+            <div class="upload-text">Drop your HAR file here or click to browse</div>
+            <div class="upload-hint">Supports .har files from Chrome, Firefox, Safari, Edge DevTools</div>
+            <input type="file" id="fileInput" accept=".har" style="display:none;">
+        </div>
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <div class="loading-text">Analyzing HAR file...</div>
+        </div>
+        <div class="controls hidden" id="controls">
+            <div class="search-box"><span class="search-icon">🔎</span><input type="text" class="search-input"
+                    id="searchInput" placeholder="Search URLs, response bodies..."></div>
+            <button class="btn btn-toggle active" id="viewModeBtn">🔍 Filtered View</button>
+            <button class="btn btn-primary" id="exportBtn">📋 Export Summary</button>
+            <button class="btn btn-secondary" id="clearBtn">🗑️ Clear</button>
+        </div>
+        <div id="results"></div>
+    </div>
+    <button class="scroll-top-button" id="scrollTopBtn">↑</button>
+    <button class="theme-button" id="themeBtn">🎨</button>
+    <button class="about-button" id="aboutBtn">ℹ️</button>
+    <div class="theme-modal" id="themeModal">
+        <div class="theme-modal-header">Theme Picker</div>
+        <div class="theme-options" id="themeOptions"></div>
+    </div>
+    <div class="about-modal" id="aboutModal">
+        <div class="about-modal-header">About HAR Analyzer</div>
+        <div class="about-modal-content">
+            <div class="about-item"><strong>Created by</strong>Taylor Bowden</div>
+            <div class="about-item"><strong>Copyright</strong>© 2025. All Rights Reserved.</div>
+            <div class="about-item"><strong>License</strong>For internal use only.</div>
+            <div class="about-item"
+                style="margin-top:var(--space-md);padding-top:var(--space-md);border-top:1px solid var(--glass-border);">
+                <strong>⚠️ Alpha Disclaimer</strong>This tool is an early-stage internal utility. Features may change
+                without notice. Use at your own risk.
+            </div>
+            <a href="mailto:tbowden@paloaltonetworks.com" class="btn btn-primary"
+                style="margin-top:var(--space-md);text-decoration:none;justify-content:center;">📧 Contact</a>
+            <button class="btn btn-secondary" id="docBtn"
+                style="margin-top:var(--space-xs);width:100%;justify-content:center;">📚 Documentation</button>
+            <button class="btn btn-secondary" id="changelogBtn"
+                style="margin-top:var(--space-xs);width:100%;justify-content:center;">📜 Changelog</button>
+        </div>
+        <div class="about-version">Version 1.0.0-rc.1</div>
+    </div>
+    <div class="terminal-backdrop" id="terminalBackdrop">
+        <div class="terminal-modal" id="terminalModal">
+            <div class="terminal-header">
+                <div class="ascii-art">CHANGELOG</div>
+            </div>
+            <div class="terminal-content" id="terminalContent"></div>
+            <button class="terminal-close-btn" id="terminalCloseBtn">[X] CLOSE TERMINAL [ESC]</button>
+        </div>
+    </div>
+    <!-- Documentation Modal -->
+    <div class="doc-modal" id="docModal">
+        <div class="doc-header">
+            <div class="doc-title">Documentation</div>
+            <button class="doc-close" id="docCloseBtn">×</button>
+        </div>
+        <div class="doc-body">
+            <div class="doc-sidebar">
+                <button class="doc-tab-btn active" onclick="switchDocTab('status')">Status Codes</button>
+                <button class="doc-tab-btn" onclick="switchDocTab('features')">Features</button>
+            </div>
+            <div class="doc-content-area">
+                <div id="tab-status" class="doc-tab-content active">
+                    <div class="doc-section">
+                        <div class="doc-section-title">HTTP Status Codes</div>
+                        <table class="doc-table">
+                            <thead>
+                                <tr>
+                                    <th>Range</th>
+                                    <th>Meaning</th>
+                                    <th>Badge Color</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2xx</td>
+                                    <td>Success</td>
+                                    <td><span class="doc-badge-preview"
+                                            style="background:var(--color-2xx);color:white">200 OK</span></td>
+                                </tr>
+                                <tr>
+                                    <td>3xx</td>
+                                    <td>Redirection</td>
+                                    <td><span class="doc-badge-preview"
+                                            style="background:var(--color-3xx);color:white">301 Moved</span></td>
+                                </tr>
+                                <tr>
+                                    <td>4xx</td>
+                                    <td>Client Error</td>
+                                    <td><span class="doc-badge-preview"
+                                            style="background:var(--color-4xx);color:white">400 Bad Request</span></td>
+                                </tr>
+                                <tr>
+                                    <td>5xx</td>
+                                    <td>Server Error</td>
+                                    <td><span class="doc-badge-preview"
+                                            style="background:var(--color-5xx);color:white">500 Server Error</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="doc-section">
+                        <div class="doc-section-title">Special Badges</div>
+                        <table class="doc-table">
+                            <thead>
+                                <tr>
+                                    <th>Badge</th>
+                                    <th>Meaning</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="doc-badge-preview"
+                                            style="background:var(--color-warning);color:white">SLOW</span></td>
+                                    <td>Request took longer than 1.5 seconds.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="doc-badge-preview" style="background:#9333ea;color:white">NO
+                                            RESPONSE</span></td>
+                                    <td>Request failed (4xx/5xx) AND returned no response body.</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="doc-badge-preview"
+                                            style="background:var(--color-text-muted);color:white">FILTERED</span></td>
+                                    <td>Static assets (images, fonts, CSS) hidden in default view.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="tab-features" class="doc-tab-content">
+                    <div class="doc-section">
+                        <div class="doc-section-title">Tool Features</div>
+                        <div class="doc-feature-grid">
+                            <div class="doc-feature-card">
+                                <div class="doc-feature-icon">&#128269;</div>
+                                <div class="doc-feature-title">Smart Filtering</div>
+                                <div class="doc-feature-desc">Automatically filters out noise (images, CSS, fonts) to focus on API calls. Toggle "Full HAR View" to see everything.</div>
+                            </div>
+                            <div class="doc-feature-card">
+                                <div class="doc-feature-icon">&#128202;</div>
+                                <div class="doc-feature-title">Interactive Stats</div>
+                                <div class="doc-feature-desc">Click on "Errors Detected" or "Slow Requests" cards to instantly filter the list to show only those problematic entries.</div>
+                            </div>
+                            <div class="doc-feature-card">
+                                <div class="doc-feature-icon">&#127912;</div>
+                                <div class="doc-feature-title">Themes</div>
+                                <div class="doc-feature-desc">Choose from 7 themes including Dark Purple, Light Mode, and the corporate-styled PANW Orange.</div>
+                            </div>
+                            <div class="doc-feature-card">
+                                <div class="doc-feature-icon">&#128737;</div>
+                                <div class="doc-feature-title">Privacy First</div>
+                                <div class="doc-feature-desc">All processing happens locally in your browser. No data is ever uploaded to any server.</div>
+                            </div>
+                            <div class="doc-feature-card">
+                                <div class="doc-feature-icon">&#128203;</div>
+                                <div class="doc-feature-title">Export Summary</div>
+                                <div class="doc-feature-desc">Generate a markdown summary of the analysis to clipboard for easy sharing in tickets or chats.</div>
+                            </div>
+                            <div class="doc-feature-card">
+                                <div class="doc-feature-icon">&#128193;</div>
+                                <div class="doc-feature-title">Endpoint Grouping</div>
+                                <div class="doc-feature-desc">Similar API calls are grouped together (e.g., /api/v1/users/{id}) to reduce clutter and show aggregate stats.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+                    const THEMES = { darkpurple: { name: "Dark Purple", desc: "Default theme", bg: "#0a0c14", elevated: "#111318", card: "rgba(25,28,36,0.6)", cardhover: "rgba(35,38,46,0.7)", glassbg: "rgba(25,28,36,0.4)", glassborder: "rgba(255,255,255,0.08)", gradient: "linear-gradient(135deg,#667eea 0%,#764ba2 100%)", primary: "#e8eaf0", secondary: "#9ca3af", muted: "#6b7280", accent: "#a78bfa", bg1: "rgba(102,126,234,0.15)", bg2: "rgba(118,75,162,0.15)", bg3: "rgba(75,156,254,0.1)" }, light: { name: "Light Mode", desc: "Clean light theme", bg: "#f8f9fa", elevated: "#ffffff", card: "rgba(255,255,255,0.8)", cardhover: "rgba(245,247,250,0.9)", glassbg: "rgba(255,255,255,0.6)", glassborder: "rgba(0,0,0,0.08)", gradient: "linear-gradient(135deg,#667eea 0%,#764ba2 100%)", primary: "#1a202c", secondary: "#4a5568", muted: "#718096", accent: "#667eea", bg1: "rgba(102,126,234,0.08)", bg2: "rgba(118,75,162,0.08)", bg3: "rgba(75,156,254,0.05)" }, cyberpunk: { name: "Cyberpunk", desc: "Neon cyan & green", bg: "#0d1117", elevated: "#161b22", card: "rgba(13,27,42,0.6)", cardhover: "rgba(22,35,52,0.7)", glassbg: "rgba(13,27,42,0.4)", glassborder: "rgba(0,255,159,0.15)", gradient: "linear-gradient(135deg,#00ff9f 0%,#00b8ff 100%)", primary: "#e6edf3", secondary: "#7d8590", muted: "#6e7681", accent: "#00ff9f", bg1: "rgba(0,255,159,0.12)", bg2: "rgba(0,184,255,0.12)", bg3: "rgba(0,255,159,0.08)" }, sunset: { name: "Sunset", desc: "Warm orange & pink", bg: "#1a0e0a", elevated: "#231511", card: "rgba(35,21,17,0.6)", cardhover: "rgba(45,27,21,0.7)", glassbg: "rgba(26,14,10,0.4)", glassborder: "rgba(255,107,107,0.15)", gradient: "linear-gradient(135deg,#ff6b6b 0%,#feca57 100%)", primary: "#fff5f5", secondary: "#d4a574", muted: "#9c6644", accent: "#ff6b6b", bg1: "rgba(255,107,107,0.12)", bg2: "rgba(254,202,87,0.12)", bg3: "rgba(255,107,107,0.08)" }, forest: { name: "Forest", desc: "Natural green & teal", bg: "#0a1612", elevated: "#0f1e1a", card: "rgba(15,30,26,0.6)", cardhover: "rgba(18,35,30,0.7)", glassbg: "rgba(10,22,18,0.4)", glassborder: "rgba(56,239,125,0.15)", gradient: "linear-gradient(135deg,#38ef7d 0%,#11998e 100%)", primary: "#e8f5f1", secondary: "#81c9ba", muted: "#5a9a87", accent: "#38ef7d", bg1: "rgba(56,239,125,0.12)", bg2: "rgba(17,153,142,0.12)", bg3: "rgba(56,239,125,0.08)" }, panw: { name: "PANW Orange", desc: "Orange & black", bg: "#0d0d0d", elevated: "#1a1a1a", card: "rgba(35,35,35,0.9)", cardhover: "rgba(45,45,45,0.95)", glassbg: "rgba(20,20,20,0.8)", glassborder: "rgba(255,102,0,0.4)", gradient: "linear-gradient(135deg,#ff6600 0%,#ff8533 100%)", primary: "#ffffff", secondary: "#e5e5e5", muted: "#b0b0b0", accent: "#ff6600", bg1: "rgba(255,102,0,0.12)", bg2: "rgba(255,133,51,0.10)", bg3: "rgba(255,102,0,0.08)" }, prisma: { name: "Prisma Cloud", desc: "Airy sky blue", bg: "#f0f5ff", elevated: "#ffffff", card: "rgba(255,255,255,0.9)", cardhover: "rgba(245,250,255,0.95)", glassbg: "rgba(255,255,255,0.7)", glassborder: "rgba(80,130,247,0.2)", gradient: "linear-gradient(135deg,#5082f7 0%,#7ba3f8 100%)", primary: "#1a2332", secondary: "#4a5f7f", muted: "#7080a4", accent: "#5082f7", bg1: "rgba(80,130,247,0.06)", bg2: "rgba(123,163,248,0.05)", bg3: "rgba(80,130,247,0.04)" } };
+                    let harData = null, allEntries = [], filteredEntries = [], groupedEndpoints = {}, currentSearchTerm = '', viewMode = 'filtered', activeFilters = new Set(), currentTheme = 'darkpurple';
+                    const SLOW_REQUEST_THRESHOLD = 1500, ALLOWED_DOMAINS = ['prismacloud.io', 'paloaltonetworks.com'];
+                    const NOISE_PATTERNS = { extensions: ['.js', '.css', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.woff', '.woff2', '.ttf', '.eot', '.ico', '.webp', '.map'], mimeTypes: ['image/', 'font/', 'text/css', 'text/javascript', 'application/javascript', 'application/x-javascript', 'text/html'], urlPatterns: [/chrome-extension:\/\//i, /moz-extension:\/\//i, /safari-extension:\/\//i, /\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|ico|webp)(\?|$)/i, /\/_next\/static\//i, /\/static\//i, /\/assets\//i, /google-analytics/i, /googletagmanager/i, /analytics/i, /telemetry/i] };
+                    const CHANGELOG = [
+                        { version: '1.0.0-rc.1', changes: ['Fixed theme picker to stay open when selecting themes', 'Fixed documentation modal CSS and z-index layering', 'UI improvements for better theme comparison'] },
+                        { version: '1.0.0-beta.3', changes: ['UI Polish: Fixed floating buttons overlapping with modals', 'Updated version display in About modal', 'Refined UI interactions'] },
+                        { version: '1.0.0-beta.2', changes: ['Fixed animation timing for smoother expand/collapse', 'Slower transition speed (500ms) for better visual feedback', 'Improved rendering logic to prevent instant jumps'] },
+                        { version: '1.0.0-beta.1', changes: ['Major performance optimization: Lazy rendering of API calls', 'Added debounced search for smoother filtering', 'Reduced memory usage for large HAR files', 'Codebase minification and cleanup'] },
+                        { version: '0.8.4a', changes: ['Added comprehensive Documentation modal', 'Added tabbed knowledgebase for Status Codes and Features', 'Added explanations for badges and colors', 'Improved About modal layout'] },
+                        { version: '0.7.4a', changes: ['Added "NO RESPONSE" badge for errors with empty response bodies', 'Badge appears next to error count in endpoint groups', 'Better visibility of failed requests without responses'] },
+                        { version: '0.7.3a', changes: ['Added theme-aware background gradients', 'Prisma Cloud theme is now light and airy (soft blue background, white cards)', 'PANW Orange theme refined (no blue tint!)', 'Complete theme system with 7 themes', 'Theme preferences saved to localStorage'] },
+                        { version: '0.7.2a', changes: ['Added theme picker UI', 'Theme modal accessible via palette button', 'Placeholder themes added'] },
+                        { version: '0.6.2a', changes: ['Smart domain allowlist filtering', 'Interactive stat cards with click to filter', 'Fixed error display bug (now shows all errors regardless of content-type)', 'Improved error detection'] },
+                        { version: '0.6.1a', changes: ['Added floating scroll-to-top button', 'Added About modal with contact info', 'Added retro terminal-style changelog modal', 'Improved UI polish'] },
+                        { version: '0.6.0a', changes: ['Complete rebuild with all features', 'Smart filtering for API calls', 'Interactive stat cards', 'Bug fixes'] },
+                        { version: '0.5.0a', changes: ['Added endpoint grouping', 'Collapsible endpoint sections', 'Improved UI layout'] },
+                        { version: '0.4.0a', changes: ['Added search functionality', 'Response body viewing', 'JSON syntax highlighting'] },
+                        { version: '0.3.0a', changes: ['Added statistics dashboard', 'Error and slow request detection', 'Improved filtering'] },
+                        { version: '0.2.0a', changes: ['Basic HAR file parsing', 'Request/response display', 'Initial UI design'] },
+                        { version: '0.1.0a', changes: ['Initial release', 'File upload support'] }
+                    ];
+                    function applyTheme(t) { const th = THEMES[t]; if (!th) return; const r = document.documentElement.style; r.setProperty('--color-bg-main', th.bg); r.setProperty('--color-bg-elevated', th.elevated); r.setProperty('--color-bg-card', th.card); r.setProperty('--color-bg-card-hover', th.cardhover); r.setProperty('--glass-bg', th.glassbg); r.setProperty('--glass-border', th.glassborder); r.setProperty('--gradient-primary', th.gradient); r.setProperty('--color-text-primary', th.primary); r.setProperty('--color-text-secondary', th.secondary); r.setProperty('--color-text-muted', th.muted); r.setProperty('--color-text-accent', th.accent); r.setProperty('--bg-gradient-1', th.bg1); r.setProperty('--bg-gradient-2', th.bg2); r.setProperty('--bg-gradient-3', th.bg3); currentTheme = t; localStorage.setItem('harAnalyzerTheme', t); updateThemeOptions() }
+                    function updateThemeOptions() { const c = document.getElementById('themeOptions'); const themes = [{ id: 'darkpurple', grad: 'linear-gradient(135deg,#667eea 0%,#764ba2 100%)' }, { id: 'light', grad: 'linear-gradient(135deg,#667eea 0%,#764ba2 100%)' }, { id: 'cyberpunk', grad: 'linear-gradient(135deg,#00ff9f 0%,#00b8ff 100%)' }, { id: 'sunset', grad: 'linear-gradient(135deg,#ff6b6b 0%,#feca57 100%)' }, { id: 'forest', grad: 'linear-gradient(135deg,#38ef7d 0%,#11998e 100%)' }, { id: 'panw', grad: 'linear-gradient(135deg,#ff6600 0%,#ff8533 100%)' }, { id: 'prisma', grad: 'linear-gradient(135deg,#5082f7 0%,#7ba3f8 100%)' }]; c.innerHTML = themes.map(({ id, grad }) => `<div class="theme-option ${currentTheme === id ? 'active' : ''}" data-theme="${id}"><div class="theme-preview" style="background:${grad};"></div><div class="theme-info"><div class="theme-name">${THEMES[id].name}</div><div class="theme-description">${THEMES[id].desc}</div></div></div>`).join(''); c.querySelectorAll('.theme-option').forEach(opt => { opt.addEventListener('click', (e) => { e.stopPropagation(); applyTheme(opt.dataset.theme) }) }) }
+                    function isNoise(e) { const u = e.request.url.toLowerCase(), m = e.response.content.mimeType || ''; if (NOISE_PATTERNS.extensions.some(x => u.includes(x))) return true; if (NOISE_PATTERNS.mimeTypes.some(t => m.includes(t))) return true; if (NOISE_PATTERNS.urlPatterns.some(p => p.test(u))) return true; return false }
+                    function isDataAPI(e) { const m = e.response.content.mimeType || '', u = e.request.url, s = e.response.status; if (s >= 400 && s < 600) return true; if (!m.includes('json')) return false; const a = ALLOWED_DOMAINS.some(d => u.includes(d)); if (a) { const h = e.response.content.text && e.response.content.text.trim().length > 0; const b = e.response.bodySize && e.response.bodySize > 0; if (!h && !b && s === 204) return true; if (!h && !b) return false; return s >= 200 && s < 600 } return e.time >= SLOW_REQUEST_THRESHOLD }
+                    function filterEntries(e) { return e.filter(x => !isNoise(x) && isDataAPI(x)) }
+                    function applyActiveFilters(e) { if (activeFilters.size === 0) return e; return e.filter(x => { if (activeFilters.has('errors') && x.response.status >= 400) return true; if (activeFilters.has('slow') && x.time >= SLOW_REQUEST_THRESHOLD) return true; return false }) }
+                    function normalizeEndpoint(u) { try { const o = new URL(u); let p = o.pathname.replace(/\/$/, '').replace(/\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi, '/{uuid}').replace(/\/[0-9a-f]{24,}/gi, '/{id}').replace(/\/[0-9]+/g, '/{id}'); return { hostname: o.hostname, path: p || '/', normalized: `${o.hostname}${p || '/'}` } } catch (e) { return { hostname: 'unknown', path: u, normalized: u } } }
+                    function groupByEndpoint(e) { const g = {}; e.forEach(x => { const ep = normalizeEndpoint(x.request.url), k = ep.normalized; if (!g[k]) g[k] = { hostname: ep.hostname, path: ep.path, calls: [], errorCount: 0, slowCount: 0, noResponseCount: 0, isNoise: isNoise(x) }; g[k].calls.push(x); if (x.response.status >= 400) { g[k].errorCount++; const hasText = x.response.content.text && x.response.content.text.trim().length > 0; const hasBody = x.response.bodySize && x.response.bodySize > 0; if (!hasText && !hasBody) g[k].noResponseCount++ } if (x.time >= SLOW_REQUEST_THRESHOLD) g[k].slowCount++ }); return g }
+                    function getStatusClass(s) { if (s >= 200 && s < 300) return 'status-2xx'; if (s >= 300 && s < 400) return 'status-3xx'; if (s >= 400 && s < 500) return 'status-4xx'; if (s >= 500) return 'status-5xx'; return '' }
+                    function getMethodClass(m) { return `method-${m.toLowerCase()}` }
+                    function formatTime(ms) { return ms < 1000 ? `${Math.round(ms)}ms` : `${(ms / 1000).toFixed(2)}s` }
+                    function syntaxHighlightJSON(j) { if (typeof j !== 'string') j = JSON.stringify(j, null, 2); j = j.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); return j.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (m) { let c = 'json-number'; if (/^"/.test(m)) { c = /:$/.test(m) ? 'json-key' : 'json-string' } else if (/true|false/.test(m)) c = 'json-boolean'; else if (/null/.test(m)) c = 'json-null'; return '<span class="' + c + '">' + m + '</span>' }) }
+                    function searchEntry(e, t) { if (!t) return true; const tm = t.toLowerCase(); if (e.request.url.toLowerCase().includes(tm)) return true; try { if ((e.response.content.text || '').toLowerCase().includes(tm)) return true } catch (x) { } return false }
+                    function renderChangelog() { let h = ''; CHANGELOG.forEach(e => { h += `<div class="terminal-prompt">&gt; VERSION ${e.version}</div>`; e.changes.forEach(c => h += `<div class="terminal-text">${c}</div>`) }); return h }
+                    function debounce(func, wait) { let timeout; return function executedFunction(...args) { const later = () => { clearTimeout(timeout); func(...args) }; clearTimeout(timeout); timeout = setTimeout(later, wait) } }
+                    function renderResults() { const rc = document.getElementById('results'); let es = applyActiveFilters(viewMode === 'filtered' ? filteredEntries : allEntries); const cg = groupByEndpoint(es); const vg = Object.entries(cg).filter(([k, g]) => g.calls.some(e => searchEntry(e, currentSearchTerm))); if (vg.length === 0) { rc.innerHTML = '<div style="text-align:center;padding:2rem;color:#6b7280;"><div style="font-size:4rem;margin-bottom:1.5rem;opacity:0.5;">🔍</div><div style="font-size:1.125rem;">No matching entries found</div></div>'; return } vg.sort((a, b) => b[1].errorCount !== a[1].errorCount ? b[1].errorCount - a[1].errorCount : b[1].calls.length - a[1].calls.length); let h = '<div class="endpoint-groups">'; vg.forEach(([k, g]) => { const vc = g.calls.filter(e => searchEntry(e, currentSearchTerm)); const im = !g.isNoise, gc = viewMode === 'full' ? (im ? 'highlighted' : 'noise') : ''; h += `<div class="endpoint-group ${gc}" data-endpoint="${k}" data-rendered="false"><div class="endpoint-header" onclick="toggleEndpoint('${k}')"><div class="endpoint-info"><div class="endpoint-path">${g.path}</div><div class="endpoint-meta"><span style="color:var(--color-text-muted);font-size:0.875rem;">${g.hostname}</span><span class="badge badge-count">${vc.length} calls</span>${g.errorCount > 0 ? `<span class="badge badge-error">${g.errorCount} errors</span>` : ''}${g.noResponseCount > 0 ? `<span class="badge badge-no-response">${g.noResponseCount} no response</span>` : ''}${g.slowCount > 0 ? `<span class="badge badge-slow">${g.slowCount} slow</span>` : ''}${viewMode === 'full' && g.isNoise ? '<span class="badge badge-noise">Filtered in default view</span>' : ''}</div></div><div class="expand-icon">▼</div></div><div class="api-calls" id="calls-${k.replace(/[^a-zA-Z0-9]/g, '-')}"></div></div>` }); h += '</div>'; rc.innerHTML = h; groupedEndpoints = cg }
+                    function renderAPICalls(cs) { return cs.map(e => { const s = e.response.status, m = e.request.method, t = e.time, u = e.request.url, mt = e.response.content.mimeType || 'unknown'; let rb = e.response.content.text || '', jd = null; try { if (rb) jd = JSON.parse(rb) } catch (x) { } const dr = jd ? syntaxHighlightJSON(jd) : (rb || '<em>No response body</em>'); const hasText = e.response.content.text && e.response.content.text.trim().length > 0; const hasBody = e.response.bodySize && e.response.bodySize > 0; const isEmptyError = s >= 400 && !hasText && !hasBody; return `<div class="api-call"><div class="api-call-header"><span class="http-method ${getMethodClass(m)}">${m}</span><span class="status-badge ${getStatusClass(s)}">${s}</span><span style="flex:1;color:var(--color-text-secondary);font-size:0.875rem;word-break:break-all;font-family:var(--font-mono);">${u}</span></div><div style="display:flex;gap:var(--space-md);margin-bottom:var(--space-md);flex-wrap:wrap;"><div style="display:flex;align-items:center;gap:var(--space-xs);font-size:0.875rem;color:var(--color-text-muted);"><span>⏱️</span><span>${formatTime(t)}</span></div><div style="display:flex;align-items:center;gap:var(--space-xs);font-size:0.875rem;color:var(--color-text-muted);"><span>📄</span><span>${mt}</span></div>${t >= SLOW_REQUEST_THRESHOLD ? '<span class="badge badge-slow">Slow</span>' : ''}${isEmptyError ? '<span class="badge badge-no-response">No Response</span>' : ''}</div>${rb ? `<div class="response-viewer"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-sm);"><span style="font-weight:600;color:var(--color-text-primary);">Response Body</span><button style="padding:var(--space-xs) var(--space-md);background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--radius-sm);color:var(--color-text-secondary);cursor:pointer;font-size:0.8125rem;transition:all var(--transition-fast);font-family:var(--font-sans);" onclick="copyResponse('${btoa(encodeURIComponent(rb))}')">Copy JSON</button></div><pre class="response-body">${dr}</pre></div>` : ''}</div>` }).join('') }
+                    function updateStats() { const e = viewMode === 'filtered' ? filteredEntries : allEntries; let ec = 0, sc = 0; e.forEach(x => { if (x.response.status >= 400) ec++; if (x.time >= SLOW_REQUEST_THRESHOLD) sc++ }); document.getElementById('statTotalCalls').textContent = e.length; document.getElementById('statEndpoints').textContent = Object.keys(groupedEndpoints).length; document.getElementById('statErrors').textContent = ec; document.getElementById('statSlowRequests').textContent = sc }
+                    function toggleEndpoint(k) { const g = document.querySelector(`[data-endpoint="${k}"]`); if (!g) return; if (g.dataset.rendered === 'false') { const data = groupedEndpoints[k]; if (data) { const vc = data.calls.filter(e => searchEntry(e, currentSearchTerm)); const cid = `calls-${k.replace(/[^a-zA-Z0-9]/g, '-')}`; requestAnimationFrame(() => { document.getElementById(cid).innerHTML = renderAPICalls(vc); g.dataset.rendered = 'true'; requestAnimationFrame(() => g.classList.add('expanded')) }) } } else { g.classList.toggle('expanded') } }
+                    function toggleFloatingButtons(hide) { const btns = [document.getElementById('scrollTopBtn'), document.getElementById('themeBtn'), document.getElementById('aboutBtn')]; btns.forEach(b => { if (b) b.style.display = hide ? 'none' : '' }) }
+                    function copyResponse(ed) { try { navigator.clipboard.writeText(decodeURIComponent(atob(ed))); event.target.textContent = '✓ Copied!'; setTimeout(() => event.target.textContent = 'Copy JSON', 2000) } catch (e) { console.error('Copy failed:', e) } }
+                    function toggleViewMode() { viewMode = viewMode === 'filtered' ? 'full' : 'filtered'; const b = document.getElementById('viewModeBtn'); b.innerHTML = viewMode === 'filtered' ? '🔍 Filtered View' : '📋 Full HAR View'; b.classList.toggle('active', viewMode === 'filtered'); updateStats(); renderResults() }
+                    function processHARFile(f) { const r = new FileReader(); r.onload = function (e) { try { document.getElementById('loading').classList.add('active'); document.getElementById('uploadZone').classList.add('hidden'); harData = JSON.parse(e.target.result); allEntries = harData.log.entries; filteredEntries = filterEntries(allEntries); groupedEndpoints = groupByEndpoint(filteredEntries); setTimeout(() => { document.getElementById('loading').classList.remove('active'); document.getElementById('statsBar').classList.remove('hidden'); document.getElementById('controls').classList.remove('hidden'); updateStats(); renderResults() }, 500) } catch (err) { alert('Error parsing HAR file: ' + err.message); document.getElementById('loading').classList.remove('active'); document.getElementById('uploadZone').classList.remove('hidden') } }; r.readAsText(f) }
+                    const handleSearch = debounce((t) => { currentSearchTerm = t; renderResults() }, 300);
+                    function exportSummary() { const e = viewMode === 'filtered' ? filteredEntries : allEntries; let ec = 0, sc = 0; e.forEach(x => { if (x.response.status >= 400) ec++; if (x.time >= SLOW_REQUEST_THRESHOLD) sc++ }); const md = `# HAR Analysis Summary\n\n**Generated:** ${new Date().toLocaleString()}\n**View Mode:** ${viewMode === 'filtered' ? 'Filtered (API calls only)' : 'Full HAR'}\n\n## Overview\n\n- **Total Entries:** ${e.length}\n- **Unique Endpoints:** ${Object.keys(groupedEndpoints).length}\n- **Errors Detected:** ${ec}\n- **Slow Requests (>${SLOW_REQUEST_THRESHOLD}ms):** ${sc}\n\n`; navigator.clipboard.writeText(md); const b = document.getElementById('exportBtn'), ot = b.innerHTML; b.innerHTML = '✓ Copied to Clipboard!'; setTimeout(() => b.innerHTML = ot, 2000) }
+                    function clearData() { harData = null; allEntries = []; filteredEntries = []; groupedEndpoints = {}; currentSearchTerm = ''; viewMode = 'filtered'; activeFilters.clear(); document.getElementById('statsBar').classList.add('hidden'); document.getElementById('controls').classList.add('hidden'); document.getElementById('uploadZone').classList.remove('hidden'); document.getElementById('results').innerHTML = ''; document.getElementById('searchInput').value = ''; document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('active')); const b = document.getElementById('viewModeBtn'); b.innerHTML = '🔍 Filtered View'; b.classList.add('active') }
+                    function toggleFloatingButtons(hide) { const btns = [document.getElementById('scrollTopBtn'), document.getElementById('themeBtn')]; btns.forEach(b => { if (b) b.style.display = hide ? 'none' : '' }) }
+                    function switchDocTab(t) { document.querySelectorAll('.doc-tab-btn').forEach(b => b.classList.remove('active')); document.querySelectorAll('.doc-tab-content').forEach(c => c.classList.remove('active')); document.querySelector(`button[onclick="switchDocTab('${t}')"]`).classList.add('active'); document.getElementById(`tab-${t}`).classList.add('active') }
+                    document.addEventListener('DOMContentLoaded', function () { const savedTheme = localStorage.getItem('harAnalyzerTheme') || 'darkpurple'; applyTheme(savedTheme); const uz = document.getElementById('uploadZone'), fi = document.getElementById('fileInput'); uz.addEventListener('click', () => fi.click()); fi.addEventListener('change', e => { if (e.target.files[0]) processHARFile(e.target.files[0]) }); uz.addEventListener('dragover', e => { e.preventDefault(); uz.classList.add('drag-over') }); uz.addEventListener('dragleave', () => uz.classList.remove('drag-over')); uz.addEventListener('drop', e => { e.preventDefault(); uz.classList.remove('drag-over'); const f = e.dataTransfer.files[0]; if (f && f.name.endsWith('.har')) processHARFile(f); else alert('Please drop a valid .har file') }); document.getElementById('searchInput').addEventListener('input', e => handleSearch(e.target.value)); document.getElementById('viewModeBtn').addEventListener('click', toggleViewMode); document.getElementById('exportBtn').addEventListener('click', exportSummary); document.getElementById('clearBtn').addEventListener('click', clearData); document.getElementById('statCardAll').addEventListener('click', () => { activeFilters.clear(); document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('active')); document.getElementById('statCardAll').classList.add('active'); renderResults() }); document.getElementById('statCardErrors').addEventListener('click', () => { if (activeFilters.has('errors')) { activeFilters.delete('errors'); document.getElementById('statCardErrors').classList.remove('active') } else { activeFilters.add('errors'); document.getElementById('statCardErrors').classList.add('active'); document.getElementById('statCardAll').classList.remove('active') } if (activeFilters.size === 0) document.getElementById('statCardAll').classList.add('active'); renderResults() }); document.getElementById('statCardSlow').addEventListener('click', () => { if (activeFilters.has('slow')) { activeFilters.delete('slow'); document.getElementById('statCardSlow').classList.remove('active') } else { activeFilters.add('slow'); document.getElementById('statCardSlow').classList.add('active'); document.getElementById('statCardAll').classList.remove('active') } if (activeFilters.size === 0) document.getElementById('statCardAll').classList.add('active'); renderResults() }); const thb = document.getElementById('themeBtn'), thm = document.getElementById('themeModal'); thb.addEventListener('click', e => { e.stopPropagation(); thm.classList.toggle('active'); toggleFloatingButtons(thm.classList.contains('active')) }); const abb = document.getElementById('aboutBtn'), abm = document.getElementById('aboutModal'); abb.addEventListener('click', e => { e.stopPropagation(); abm.classList.toggle('active'); toggleFloatingButtons(abm.classList.contains('active')) }); const docb = document.getElementById('docBtn'), docm = document.getElementById('docModal'), docc = document.getElementById('docCloseBtn'); docb.addEventListener('click', e => { e.stopPropagation(); docm.classList.add('active'); abm.classList.remove('active'); toggleFloatingButtons(true) }); docc.addEventListener('click', () => { docm.classList.remove('active'); toggleFloatingButtons(false) }); document.addEventListener('click', e => { if (!abm.contains(e.target) && !abb.contains(e.target)) { if (abm.classList.contains('active')) toggleFloatingButtons(false); abm.classList.remove('active') } if (!thm.contains(e.target) && !thb.contains(e.target)) { if (thm.classList.contains('active')) toggleFloatingButtons(false); thm.classList.remove('active') } if (!docm.contains(e.target) && !docb.contains(e.target)) { if (docm.classList.contains('active')) toggleFloatingButtons(false); docm.classList.remove('active') } }); document.getElementById('changelogBtn').addEventListener('click', e => { e.stopPropagation(); document.getElementById('terminalContent').innerHTML = renderChangelog(); document.getElementById('terminalBackdrop').classList.add('active') }); const tbb = document.getElementById('terminalBackdrop'), tbm = document.getElementById('terminalModal'); document.getElementById('terminalCloseBtn').addEventListener('click', () => tbb.classList.remove('active')); tbb.addEventListener('click', e => { if (e.target === tbb) tbb.classList.remove('active') }); tbm.addEventListener('click', e => e.stopPropagation()); document.addEventListener('keydown', e => { if (e.key === 'Escape') { tbb.classList.remove('active'); docm.classList.remove('active'); toggleFloatingButtons(false) } }); const stb = document.getElementById('scrollTopBtn'); window.addEventListener('scroll', () => stb.classList.toggle('visible', window.pageYOffset > 300)); stb.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' })) });
+                    window.toggleEndpoint = toggleEndpoint; window.copyResponse = copyResponse; window.switchDocTab = switchDocTab;
+                </script>
+</body>
+
+</html>
+
+
