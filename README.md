@@ -28,6 +28,4 @@ A self-contained HAR inspection tool that runs entirely in your browser. Drop a 
 - `CHANGELOG.md` – release notes and history.
 
 ## Contributing
-- Edits are easiest directly in `har-analyzer.html` (CSS/JS inline).
-- Keep assets ASCII-only unless intentionally using emoji for icons.
-- When changing UI behavior, update this README and `CHANGELOG.md`.
+- Please reach out to me directly using the "Contact" button in Har Analyzer to discuss contributing or feature requests.
