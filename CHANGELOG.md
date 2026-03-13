@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here. The app is a single-file HTML utility, so version bumps are tied to UI/UX fixes and feature polish.
 
+## 1.0.0-rc.2
+- Added "EMPTY" badge for API calls that return 2xx with no response body.
+- Empty response count displayed in endpoint group headers.
+- Fixed broken icons (stopwatch/document) in API call details.
+- Fixed domain allowlist filter to stop excluding empty 200 responses.
+- Added EMPTY badge documentation to the Documentation modal.
+
 ## 1.0.0-rc.1
 - Fixed the documentation modal backdrop/stacking and ensured About → Documentation/Changelog buttons open their modals.
 - Constrained and centered the upload zone to stop it from covering the page layout.
