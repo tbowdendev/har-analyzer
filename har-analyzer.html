@@ -1176,6 +1176,240 @@
             line-height: 1.5
         }
 
+        /* Error Modal */
+        .error-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1001;
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center
+        }
+
+        .error-backdrop.active {
+            display: flex
+        }
+
+        .error-modal {
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--color-error);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            max-width: 480px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.2)
+        }
+
+        .error-modal-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-md)
+        }
+
+        .error-modal-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-md)
+        }
+
+        .error-modal-message {
+            color: var(--color-error);
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            background: var(--color-bg-main);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-md);
+            word-break: break-word
+        }
+
+        .error-modal-hint {
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+            line-height: 1.5
+        }
+
+        /* Feedback Modal */
+        .feedback-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1001;
+            backdrop-filter: blur(4px);
+            align-items: center;
+            justify-content: center
+        }
+
+        .feedback-backdrop.active {
+            display: flex
+        }
+
+        .feedback-modal {
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: var(--glass-shadow)
+        }
+
+        .feedback-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-lg) var(--space-xl);
+            border-bottom: 1px solid var(--glass-border)
+        }
+
+        .feedback-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-text-primary)
+        }
+
+        .feedback-close {
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: var(--space-xs);
+            line-height: 1;
+            transition: color var(--transition-fast)
+        }
+
+        .feedback-close:hover {
+            color: var(--color-text-primary)
+        }
+
+        .feedback-body {
+            padding: var(--space-xl)
+        }
+
+        /* Method Filter Bar */
+        .method-filters {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+            margin-bottom: var(--space-lg)
+        }
+
+        .method-filter-btn {
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all var(--transition-fast);
+            opacity: 0.6
+        }
+
+        .method-filter-btn:hover {
+            opacity: 0.85;
+            transform: translateY(-1px)
+        }
+
+        .method-filter-btn.active {
+            opacity: 1;
+            box-shadow: 0 0 0 2px var(--color-text-accent);
+            transform: translateY(-1px)
+        }
+
+        /* Status Tooltip */
+        .status-badge {
+            position: relative;
+            cursor: help
+        }
+
+        .status-badge[data-tooltip]:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--color-bg-elevated);
+            color: var(--color-text-primary);
+            border: 1px solid var(--glass-border);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 400;
+            white-space: nowrap;
+            z-index: 50;
+            pointer-events: none;
+            box-shadow: var(--glass-shadow)
+        }
+
+        /* Status Legend */
+        .status-legend {
+            display: flex;
+            gap: var(--space-lg);
+            flex-wrap: wrap;
+            padding: var(--space-md) var(--space-lg);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-lg);
+            backdrop-filter: blur(10px);
+            align-items: center
+        }
+
+        .legend-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            font-size: 0.8rem;
+            color: var(--color-text-secondary)
+        }
+
+        .legend-swatch {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            flex-shrink: 0
+        }
+
+        /* cURL copy button */
+        .curl-btn {
+            padding: var(--space-xs) var(--space-md);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            font-size: 0.8125rem;
+            transition: all var(--transition-fast);
+            font-family: var(--font-sans)
+        }
+
+        .curl-btn:hover {
+            background: var(--color-bg-card-hover);
+            color: var(--color-text-primary)
+        }
+
         @media (max-width:768px) {
             .container {
                 padding: var(--space-md)
@@ -1279,6 +1513,23 @@
                 <div class="stat-value" style="color:var(--color-warning);" id="statSlowRequests">0</div>
             </div>
         </div>
+        <div class="method-filters hidden" id="methodFilters">
+            <span style="font-size:0.8rem;font-weight:700;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.05em;align-self:center;">Filter by Method:</span>
+            <button class="method-filter-btn method-get" data-method="get">GET</button>
+            <button class="method-filter-btn method-post" data-method="post">POST</button>
+            <button class="method-filter-btn method-put" data-method="put">PUT</button>
+            <button class="method-filter-btn method-patch" data-method="patch">PATCH</button>
+            <button class="method-filter-btn method-delete" data-method="delete">DELETE</button>
+        </div>
+        <div class="status-legend hidden" id="statusLegend">
+            <span class="legend-title">Legend:</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:var(--color-2xx)"></span>2xx Success</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:var(--color-3xx)"></span>3xx Redirect</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:var(--color-4xx)"></span>4xx Client Error</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:var(--color-5xx)"></span>5xx Server Error</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:var(--color-warning)"></span>Slow (&gt;1.5s)</span>
+            <span class="legend-item"><span class="legend-swatch" style="background:#9333ea"></span>No Response</span>
+        </div>
         <div class="upload-zone" id="uploadZone">
             <div class="upload-icon">📁</div>
             <div class="upload-text">Drop your HAR file here or click to browse</div>
@@ -1317,17 +1568,16 @@
             <div class="about-item"><strong>License</strong>For internal use only.</div>
             <div class="about-item"
                 style="margin-top:var(--space-md);padding-top:var(--space-md);border-top:1px solid var(--glass-border);">
-                <strong>⚠️ Alpha Disclaimer</strong>This tool is an early-stage internal utility. Features may change
-                without notice. Use at your own risk.
+                <strong>Disclaimer</strong>This tool is an internal utility. Features may change without notice.
             </div>
-            <a href="mailto:tbowden@paloaltonetworks.com" class="btn btn-primary"
-                style="margin-top:var(--space-md);text-decoration:none;justify-content:center;">📧 Contact</a>
+            <button class="btn btn-primary" id="feedbackBtn"
+                style="margin-top:var(--space-md);width:100%;justify-content:center;">💬 Send Feedback</button>
             <button class="btn btn-secondary" id="docBtn"
                 style="margin-top:var(--space-xs);width:100%;justify-content:center;">📚 Documentation</button>
             <button class="btn btn-secondary" id="changelogBtn"
                 style="margin-top:var(--space-xs);width:100%;justify-content:center;">📜 Changelog</button>
         </div>
-        <div class="about-version">Version 1.0.0-rc.2</div>
+        <div class="about-version">Version 1.0.0</div>
     </div>
     <div class="terminal-backdrop" id="terminalBackdrop">
         <div class="terminal-modal" id="terminalModal">
@@ -1336,6 +1586,30 @@
             </div>
             <div class="terminal-content" id="terminalContent"></div>
             <button class="terminal-close-btn" id="terminalCloseBtn">[X] CLOSE TERMINAL [ESC]</button>
+        </div>
+    </div>
+    <!-- Error Modal -->
+    <div class="error-backdrop" id="errorBackdrop">
+        <div class="error-modal">
+            <div class="error-modal-icon">⚠️</div>
+            <div class="error-modal-title">Unable to Load HAR File</div>
+            <div class="error-modal-message" id="errorMessage">An unknown error occurred.</div>
+            <div class="error-modal-hint">Make sure you exported from Chrome, Firefox, Safari, or Edge DevTools as a .har file.</div>
+            <button class="btn btn-primary" id="errorRetryBtn" style="width:100%;justify-content:center;margin-top:var(--space-md);">Try Again</button>
+        </div>
+    </div>
+    <!-- Feedback Modal -->
+    <div class="feedback-backdrop" id="feedbackBackdrop">
+        <div class="feedback-modal">
+            <div class="feedback-header">
+                <div class="feedback-title">Send Feedback</div>
+                <button class="feedback-close" id="feedbackCloseBtn">&times;</button>
+            </div>
+            <div class="feedback-body">
+                <p style="color:var(--color-text-secondary);margin-bottom:var(--space-md);font-size:0.9rem;">Have a bug report, feature request, or general feedback? Fill out the form below.</p>
+                <iframe id="feedbackIframe" src="" style="width:100%;height:calc(80vh - 120px);border:none;border-radius:var(--radius-md);background:white;" title="Feedback Form"></iframe>
+                <p style="color:var(--color-text-muted);font-size:0.8rem;margin-top:var(--space-sm);text-align:center;">No Google Form URL configured yet. Set <code>FEEDBACK_FORM_URL</code> in the script.</p>
+            </div>
         </div>
     </div>
     <!-- Documentation Modal -->
@@ -1467,8 +1741,11 @@
                     const THEMES = { darkpurple: { name: "Dark Purple", desc: "Default theme", bg: "#0a0c14", elevated: "#111318", card: "rgba(25,28,36,0.6)", cardhover: "rgba(35,38,46,0.7)", glassbg: "rgba(25,28,36,0.4)", glassborder: "rgba(255,255,255,0.08)", gradient: "linear-gradient(135deg,#667eea 0%,#764ba2 100%)", primary: "#e8eaf0", secondary: "#9ca3af", muted: "#6b7280", accent: "#a78bfa", bg1: "rgba(102,126,234,0.15)", bg2: "rgba(118,75,162,0.15)", bg3: "rgba(75,156,254,0.1)" }, light: { name: "Light Mode", desc: "Clean light theme", bg: "#f8f9fa", elevated: "#ffffff", card: "rgba(255,255,255,0.8)", cardhover: "rgba(245,247,250,0.9)", glassbg: "rgba(255,255,255,0.6)", glassborder: "rgba(0,0,0,0.08)", gradient: "linear-gradient(135deg,#667eea 0%,#764ba2 100%)", primary: "#1a202c", secondary: "#4a5568", muted: "#718096", accent: "#667eea", bg1: "rgba(102,126,234,0.08)", bg2: "rgba(118,75,162,0.08)", bg3: "rgba(75,156,254,0.05)" }, cyberpunk: { name: "Cyberpunk", desc: "Neon cyan & green", bg: "#0d1117", elevated: "#161b22", card: "rgba(13,27,42,0.6)", cardhover: "rgba(22,35,52,0.7)", glassbg: "rgba(13,27,42,0.4)", glassborder: "rgba(0,255,159,0.15)", gradient: "linear-gradient(135deg,#00ff9f 0%,#00b8ff 100%)", primary: "#e6edf3", secondary: "#7d8590", muted: "#6e7681", accent: "#00ff9f", bg1: "rgba(0,255,159,0.12)", bg2: "rgba(0,184,255,0.12)", bg3: "rgba(0,255,159,0.08)" }, sunset: { name: "Sunset", desc: "Warm orange & pink", bg: "#1a0e0a", elevated: "#231511", card: "rgba(35,21,17,0.6)", cardhover: "rgba(45,27,21,0.7)", glassbg: "rgba(26,14,10,0.4)", glassborder: "rgba(255,107,107,0.15)", gradient: "linear-gradient(135deg,#ff6b6b 0%,#feca57 100%)", primary: "#fff5f5", secondary: "#d4a574", muted: "#9c6644", accent: "#ff6b6b", bg1: "rgba(255,107,107,0.12)", bg2: "rgba(254,202,87,0.12)", bg3: "rgba(255,107,107,0.08)" }, forest: { name: "Forest", desc: "Natural green & teal", bg: "#0a1612", elevated: "#0f1e1a", card: "rgba(15,30,26,0.6)", cardhover: "rgba(18,35,30,0.7)", glassbg: "rgba(10,22,18,0.4)", glassborder: "rgba(56,239,125,0.15)", gradient: "linear-gradient(135deg,#38ef7d 0%,#11998e 100%)", primary: "#e8f5f1", secondary: "#81c9ba", muted: "#5a9a87", accent: "#38ef7d", bg1: "rgba(56,239,125,0.12)", bg2: "rgba(17,153,142,0.12)", bg3: "rgba(56,239,125,0.08)" }, panw: { name: "PANW Orange", desc: "Orange & black", bg: "#0d0d0d", elevated: "#1a1a1a", card: "rgba(35,35,35,0.9)", cardhover: "rgba(45,45,45,0.95)", glassbg: "rgba(20,20,20,0.8)", glassborder: "rgba(255,102,0,0.4)", gradient: "linear-gradient(135deg,#ff6600 0%,#ff8533 100%)", primary: "#ffffff", secondary: "#e5e5e5", muted: "#b0b0b0", accent: "#ff6600", bg1: "rgba(255,102,0,0.12)", bg2: "rgba(255,133,51,0.10)", bg3: "rgba(255,102,0,0.08)" }, prisma: { name: "Prisma Cloud", desc: "Airy sky blue", bg: "#f0f5ff", elevated: "#ffffff", card: "rgba(255,255,255,0.9)", cardhover: "rgba(245,250,255,0.95)", glassbg: "rgba(255,255,255,0.7)", glassborder: "rgba(80,130,247,0.2)", gradient: "linear-gradient(135deg,#5082f7 0%,#7ba3f8 100%)", primary: "#1a2332", secondary: "#4a5f7f", muted: "#7080a4", accent: "#5082f7", bg1: "rgba(80,130,247,0.06)", bg2: "rgba(123,163,248,0.05)", bg3: "rgba(80,130,247,0.04)" } };
                     let harData = null, allEntries = [], filteredEntries = [], groupedEndpoints = {}, currentSearchTerm = '', viewMode = 'filtered', activeFilters = new Set(), currentTheme = 'darkpurple', highlightMatches = true;
                     const SLOW_REQUEST_THRESHOLD = 1500, ALLOWED_DOMAINS = ['prismacloud.io', 'paloaltonetworks.com'];
+                    const FEEDBACK_FORM_URL = '';
+                    const STATUS_DESCRIPTIONS = { 200: 'OK', 201: 'Created', 202: 'Accepted', 204: 'No Content', 301: 'Moved Permanently', 302: 'Found (Redirect)', 304: 'Not Modified', 307: 'Temporary Redirect', 308: 'Permanent Redirect', 400: 'Bad Request', 401: 'Unauthorized', 403: 'Forbidden', 404: 'Not Found', 405: 'Method Not Allowed', 408: 'Request Timeout', 409: 'Conflict', 413: 'Payload Too Large', 415: 'Unsupported Media Type', 422: 'Unprocessable Entity', 429: 'Too Many Requests', 500: 'Internal Server Error', 502: 'Bad Gateway', 503: 'Service Unavailable', 504: 'Gateway Timeout' };
                     const NOISE_PATTERNS = { extensions: ['.js', '.css', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.woff', '.woff2', '.ttf', '.eot', '.ico', '.webp', '.map'], mimeTypes: ['image/', 'font/', 'text/css', 'text/javascript', 'application/javascript', 'application/x-javascript', 'text/html'], urlPatterns: [/chrome-extension:\/\//i, /moz-extension:\/\//i, /safari-extension:\/\//i, /\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|ico|webp)(\?|$)/i, /\/_next\/static\//i, /\/static\//i, /\/assets\//i, /google-analytics/i, /googletagmanager/i, /analytics/i, /telemetry/i] };
                     const CHANGELOG = [
+                        { version: '1.0.0', changes: ['Added HTTP method filter bar (GET, POST, PUT, PATCH, DELETE)', 'Added Copy as cURL button on every API call', 'Added status code tooltips on hover with descriptions', 'Added always-visible status legend bar', 'Added styled error modal for invalid/corrupted HAR files with validation', 'Added in-app feedback form (Google Form embed)', 'Updated disclaimer and removed alpha status', 'Version 1.0.0 — first stable release'] },
                         { version: '1.0.0-rc.2', changes: ['Added "EMPTY" badge for 2xx responses with no body', 'Empty count shown in endpoint group headers', 'Fixed broken icons (⏲/📄) in API call details', 'Fixed filtering to include empty 200 responses from allowed domains'] },
                         { version: '1.0.0-rc.1', changes: ['Fixed theme picker to stay open when selecting themes', 'Fixed documentation modal CSS and z-index layering', 'UI improvements for better theme comparison'] },
                         { version: '1.0.0-beta.3', changes: ['UI Polish: Fixed floating buttons overlapping with modals', 'Updated version display in About modal', 'Refined UI interactions'] },
@@ -1492,7 +1769,7 @@
                     function isNoise(e) { const u = e.request.url.toLowerCase(), m = e.response.content.mimeType || ''; if (NOISE_PATTERNS.extensions.some(x => u.includes(x))) return true; if (NOISE_PATTERNS.mimeTypes.some(t => m.includes(t))) return true; if (NOISE_PATTERNS.urlPatterns.some(p => p.test(u))) return true; return false }
                     function isDataAPI(e) { const m = e.response.content.mimeType || '', u = e.request.url, s = e.response.status; if (s >= 400 && s < 600) return true; if (!m.includes('json')) return false; const a = ALLOWED_DOMAINS.some(d => u.includes(d)); if (a) { const h = e.response.content.text && e.response.content.text.trim().length > 0; const b = e.response.bodySize && e.response.bodySize > 0; if (!h && !b) return true; return s >= 200 && s < 600 } return e.time >= SLOW_REQUEST_THRESHOLD }
                     function filterEntries(e) { return e.filter(x => !isNoise(x) && isDataAPI(x)) }
-                    function applyActiveFilters(e) { if (activeFilters.size === 0) return e; return e.filter(x => { if (activeFilters.has('errors') && x.response.status >= 400) return true; if (activeFilters.has('slow') && x.time >= SLOW_REQUEST_THRESHOLD) return true; return false }) }
+                    function applyActiveFilters(e) { if (activeFilters.size === 0) return e; const methodFilters = [...activeFilters].filter(f => f.startsWith('method-')); const statFilters = [...activeFilters].filter(f => !f.startsWith('method-')); return e.filter(x => { let matchesStat = statFilters.length === 0; let matchesMethod = methodFilters.length === 0; statFilters.forEach(f => { if (f === 'errors' && x.response.status >= 400) matchesStat = true; if (f === 'slow' && x.time >= SLOW_REQUEST_THRESHOLD) matchesStat = true }); if (methodFilters.length > 0 && methodFilters.includes('method-' + x.request.method.toLowerCase())) matchesMethod = true; return matchesStat && matchesMethod }) }
                     function normalizeEndpoint(u) { try { const o = new URL(u); let p = o.pathname.replace(/\/$/, '').replace(/\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi, '/{uuid}').replace(/\/[0-9a-f]{24,}/gi, '/{id}').replace(/\/[0-9]+/g, '/{id}'); return { hostname: o.hostname, path: p || '/', normalized: `${o.hostname}${p || '/'}` } } catch (e) { return { hostname: 'unknown', path: u, normalized: u } } }
                     function groupByEndpoint(e) { const g = {}; e.forEach(x => { const ep = normalizeEndpoint(x.request.url), k = ep.normalized; if (!g[k]) g[k] = { hostname: ep.hostname, path: ep.path, calls: [], errorCount: 0, slowCount: 0, noResponseCount: 0, emptyBodyCount: 0, isNoise: isNoise(x) }; g[k].calls.push(x); const hasText = x.response.content.text && x.response.content.text.trim().length > 0; const hasBody = x.response.bodySize && x.response.bodySize > 0; if (x.response.status >= 400) { g[k].errorCount++; if (!hasText && !hasBody) g[k].noResponseCount++ } else if (!hasText && !hasBody) { g[k].emptyBodyCount++ } if (x.time >= SLOW_REQUEST_THRESHOLD) g[k].slowCount++ }); return g }
                     function getStatusClass(s) { if (s >= 200 && s < 300) return 'status-2xx'; if (s >= 300 && s < 400) return 'status-3xx'; if (s >= 400 && s < 500) return 'status-4xx'; if (s >= 500) return 'status-5xx'; return '' }
@@ -1500,26 +1777,30 @@
                     function formatTime(ms) { return ms < 1000 ? `${Math.round(ms)}ms` : `${(ms / 1000).toFixed(2)}s` }
                     function syntaxHighlightJSON(j) { if (typeof j !== 'string') j = JSON.stringify(j, null, 2); j = j.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); return j.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (m) { let c = 'json-number'; if (/^"/.test(m)) { c = /:$/.test(m) ? 'json-key' : 'json-string' } else if (/true|false/.test(m)) c = 'json-boolean'; else if (/null/.test(m)) c = 'json-null'; return '<span class="' + c + '">' + m + '</span>' }) }
                     function escapeRegExp(s) { return s.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\\\$&') }
+                    function showError(msg) { document.getElementById('errorMessage').textContent = msg; document.getElementById('errorBackdrop').classList.add('active') }
+                    function getStatusTooltip(s) { const desc = STATUS_DESCRIPTIONS[s]; return desc ? `${s} — ${desc}` : `${s}` }
+                    function convertToCurl(entry) { const { method, url, headers, postData } = entry.request; let cmd = `curl -X ${method} '${url}'`; if (headers) { headers.forEach(h => { const n = h.name.toLowerCase(); if (!['host', 'content-length', 'connection', 'accept-encoding'].includes(n) && !n.startsWith(':')) cmd += ` \\\n  -H '${h.name}: ${h.value}'` }); } if (postData && postData.text) cmd += ` \\\n  --data '${postData.text.replace(/'/g, "'\\''")}'`; return cmd }
+                    function copyCurl(encoded) { try { const data = JSON.parse(decodeURIComponent(atob(encoded))); const cmd = convertToCurl({ request: data }); navigator.clipboard.writeText(cmd); event.target.textContent = '✓ Copied!'; setTimeout(() => event.target.textContent = 'Copy cURL', 2000) } catch (e) { console.error('cURL copy failed:', e) } }
                     function highlightHTML(html, term) { if (!term) return html; const regex = new RegExp(escapeRegExp(term), 'gi'); return html.split(/(<[^>]+>)/g).map(part => part.startsWith('<') ? part : part.replace(regex, m => `<mark class=\"search-hit\">${m}</mark>`)).join('') }
                                         function cycleHits(callId) { const c = document.getElementById(callId); if (!c) return; const hits = c.querySelectorAll('.search-hit'); if (!hits.length) return; let idx = parseInt(c.dataset.hitIndex || '0', 10); const t = hits[idx % hits.length]; t.scrollIntoView({ behavior: 'smooth', block: 'center' }); t.classList.add('highlight-pulse'); setTimeout(() => t.classList.remove('highlight-pulse'), 800); c.dataset.hitIndex = (idx + 1) % hits.length }
                     function searchEntry(e, t) { if (!t) return true; const tm = t.toLowerCase(); if (e.request.url.toLowerCase().includes(tm)) return true; try { if ((e.response.content.text || '').toLowerCase().includes(tm)) return true } catch (x) { } return false }
                     function renderChangelog() { let h = ''; CHANGELOG.forEach(e => { h += `<div class="terminal-prompt">&gt; VERSION ${e.version}</div>`; e.changes.forEach(c => h += `<div class="terminal-text">${c}</div>`) }); return h }
                     function debounce(func, wait) { let timeout; return function executedFunction(...args) { const later = () => { clearTimeout(timeout); func(...args) }; clearTimeout(timeout); timeout = setTimeout(later, wait) } }
                     function renderResults() { const rc = document.getElementById('results'); let es = applyActiveFilters(viewMode === 'filtered' ? filteredEntries : allEntries); const cg = groupByEndpoint(es); const vg = Object.entries(cg).filter(([k, g]) => g.calls.some(e => searchEntry(e, currentSearchTerm))); if (vg.length === 0) { rc.innerHTML = '<div style="text-align:center;padding:2rem;color:#6b7280;"><div style="font-size:4rem;margin-bottom:1.5rem;opacity:0.5;">🔍</div><div style="font-size:1.125rem;">No matching entries found</div></div>'; return } vg.sort((a, b) => b[1].errorCount !== a[1].errorCount ? b[1].errorCount - a[1].errorCount : b[1].calls.length - a[1].calls.length); let h = '<div class="endpoint-groups">'; vg.forEach(([k, g]) => { const vc = g.calls.filter(e => searchEntry(e, currentSearchTerm)); const im = !g.isNoise, gc = viewMode === 'full' ? (im ? 'highlighted' : 'noise') : ''; h += `<div class="endpoint-group ${gc}" data-endpoint="${k}" data-rendered="false"><div class="endpoint-header" onclick="toggleEndpoint('${k}')"><div class="endpoint-info"><div class="endpoint-path">${g.path}</div><div class="endpoint-meta"><span style="color:var(--color-text-muted);font-size:0.875rem;">${g.hostname}</span><span class="badge badge-count">${vc.length} calls</span>${g.errorCount > 0 ? `<span class="badge badge-error">${g.errorCount} errors</span>` : ''}${g.noResponseCount > 0 ? `<span class="badge badge-no-response">${g.noResponseCount} no response</span>` : ''}${g.slowCount > 0 ? `<span class="badge badge-slow">${g.slowCount} slow</span>` : ''}${g.emptyBodyCount > 0 ? `<span class="badge badge-empty-body">${g.emptyBodyCount} empty</span>` : ''}${viewMode === 'full' && g.isNoise ? '<span class="badge badge-noise">Filtered in default view</span>' : ''}</div></div><div class="expand-icon">▼</div></div><div class="api-calls" id="calls-${k.replace(/[^a-zA-Z0-9]/g, '-')}"></div></div>` }); h += '</div>'; rc.innerHTML = h; groupedEndpoints = cg }
-                                                            function renderAPICalls(cs) { return cs.map((e, idx) => { const s = e.response.status, m = e.request.method, t = e.time, u = e.request.url, mt = e.response.content.mimeType || 'unknown'; let rb = e.response.content.text || '', jd = null; try { if (rb) jd = JSON.parse(rb) } catch (x) { } let dr = jd ? syntaxHighlightJSON(jd) : (rb || '<em>No response body</em>'); const hasText = e.response.content.text && e.response.content.text.trim().length > 0; const hasBody = e.response.bodySize && e.response.bodySize > 0; const isEmptyError = s >= 400 && !hasText && !hasBody; const isEmptyBody = s < 400 && !hasText && !hasBody; const term = (currentSearchTerm || '').trim(); const shouldHighlight = highlightMatches && term; let hitCount = 0; if (shouldHighlight && rb) { const regex = new RegExp(escapeRegExp(term), 'gi'); const matches = rb.match(regex); hitCount = matches ? matches.length : 0; dr = highlightHTML(dr, term) } const callId = `call-${Math.random().toString(36).slice(2, 10)}`; return `<div class="api-call" data-call-id="${callId}"><div class="api-call-header"><span class="http-method ${getMethodClass(m)}">${m}</span><span class="status-badge ${getStatusClass(s)}">${s}</span><span style="flex:1;color:var(--color-text-secondary);font-size:0.875rem;word-break:break-all;font-family:var(--font-mono);">${u}</span></div><div style="display:flex;gap:var(--space-md);margin-bottom:var(--space-md);flex-wrap:wrap;"><div style="display:flex;align-items:center;gap:var(--space-xs);font-size:0.875rem;color:var(--color-text-muted);"><span>&#9202;</span><span>${formatTime(t)}</span></div><div style="display:flex;align-items:center;gap:var(--space-xs);font-size:0.875rem;color:var(--color-text-muted);"><span>&#128196;</span><span>${mt}</span></div>${t >= SLOW_REQUEST_THRESHOLD ? '<span class="badge badge-slow">Slow</span>' : ''}${isEmptyError ? '<span class="badge badge-no-response">No Response</span>' : ''}${isEmptyBody ? '<span class="badge badge-empty-body">Empty</span>' : ''}${hitCount > 0 ? `<button type="button" class="badge badge-hit" onclick="cycleHits('${callId}')">${hitCount} hits</button>` : ''}</div>${rb ? `<div class="response-viewer" id="${callId}"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-sm);"><span style="font-weight:600;color:var(--color-text-primary);">Response Body</span><button style="padding:var(--space-xs) var(--space-md);background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--radius-sm);color:var(--color-text-secondary);cursor:pointer;font-size:0.8125rem;transition:all var(--transition-fast);font-family:var(--font-sans);" onclick="copyResponse('${btoa(encodeURIComponent(rb))}')">Copy JSON</button></div><pre class="response-body">${dr}</pre></div>` : ''}</div>` }).join('') }
+                                                            function renderAPICalls(cs) { return cs.map((e, idx) => { const s = e.response.status, m = e.request.method, t = e.time, u = e.request.url, mt = e.response.content.mimeType || 'unknown'; let rb = e.response.content.text || '', jd = null; try { if (rb) jd = JSON.parse(rb) } catch (x) { } let dr = jd ? syntaxHighlightJSON(jd) : (rb || '<em>No response body</em>'); const hasText = e.response.content.text && e.response.content.text.trim().length > 0; const hasBody = e.response.bodySize && e.response.bodySize > 0; const isEmptyError = s >= 400 && !hasText && !hasBody; const isEmptyBody = s < 400 && !hasText && !hasBody; const term = (currentSearchTerm || '').trim(); const shouldHighlight = highlightMatches && term; let hitCount = 0; if (shouldHighlight && rb) { const regex = new RegExp(escapeRegExp(term), 'gi'); const matches = rb.match(regex); hitCount = matches ? matches.length : 0; dr = highlightHTML(dr, term) } const callId = `call-${Math.random().toString(36).slice(2, 10)}`; const curlData = btoa(encodeURIComponent(JSON.stringify({ method: m, url: u, headers: e.request.headers, postData: e.request.postData }))); const tooltip = getStatusTooltip(s); return `<div class="api-call" data-call-id="${callId}"><div class="api-call-header"><span class="http-method ${getMethodClass(m)}">${m}</span><span class="status-badge ${getStatusClass(s)}" data-tooltip="${tooltip}">${s}</span><span style="flex:1;color:var(--color-text-secondary);font-size:0.875rem;word-break:break-all;font-family:var(--font-mono);">${u}</span><button class="curl-btn" onclick="copyCurl('${curlData}')">Copy cURL</button></div><div style="display:flex;gap:var(--space-md);margin-bottom:var(--space-md);flex-wrap:wrap;"><div style="display:flex;align-items:center;gap:var(--space-xs);font-size:0.875rem;color:var(--color-text-muted);"><span>&#9202;</span><span>${formatTime(t)}</span></div><div style="display:flex;align-items:center;gap:var(--space-xs);font-size:0.875rem;color:var(--color-text-muted);"><span>&#128196;</span><span>${mt}</span></div>${t >= SLOW_REQUEST_THRESHOLD ? '<span class="badge badge-slow">Slow</span>' : ''}${isEmptyError ? '<span class="badge badge-no-response">No Response</span>' : ''}${isEmptyBody ? '<span class="badge badge-empty-body">Empty</span>' : ''}${hitCount > 0 ? `<button type="button" class="badge badge-hit" onclick="cycleHits('${callId}')">${hitCount} hits</button>` : ''}</div>${rb ? `<div class="response-viewer" id="${callId}"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-sm);"><span style="font-weight:600;color:var(--color-text-primary);">Response Body</span><button style="padding:var(--space-xs) var(--space-md);background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--radius-sm);color:var(--color-text-secondary);cursor:pointer;font-size:0.8125rem;transition:all var(--transition-fast);font-family:var(--font-sans);" onclick="copyResponse('${btoa(encodeURIComponent(rb))}')">Copy JSON</button></div><pre class="response-body">${dr}</pre></div>` : ''}</div>` }).join('') }
 function updateStats() { const e = viewMode === 'filtered' ? filteredEntries : allEntries; let ec = 0, sc = 0; e.forEach(x => { if (x.response.status >= 400) ec++; if (x.time >= SLOW_REQUEST_THRESHOLD) sc++ }); document.getElementById('statTotalCalls').textContent = e.length; document.getElementById('statEndpoints').textContent = Object.keys(groupedEndpoints).length; document.getElementById('statErrors').textContent = ec; document.getElementById('statSlowRequests').textContent = sc }
                     function toggleEndpoint(k) { const g = document.querySelector(`[data-endpoint="${k}"]`); if (!g) return; if (g.dataset.rendered === 'false') { const data = groupedEndpoints[k]; if (data) { const vc = data.calls.filter(e => searchEntry(e, currentSearchTerm)); const cid = `calls-${k.replace(/[^a-zA-Z0-9]/g, '-')}`; requestAnimationFrame(() => { document.getElementById(cid).innerHTML = renderAPICalls(vc); g.dataset.rendered = 'true'; requestAnimationFrame(() => g.classList.add('expanded')) }) } } else { g.classList.toggle('expanded') } }
                     function toggleFloatingButtons(hide) { const btns = [document.getElementById('scrollTopBtn'), document.getElementById('themeBtn'), document.getElementById('aboutBtn')]; btns.forEach(b => { if (b) b.style.display = hide ? 'none' : '' }) }
                     function copyResponse(ed) { try { navigator.clipboard.writeText(decodeURIComponent(atob(ed))); event.target.textContent = '✓ Copied!'; setTimeout(() => event.target.textContent = 'Copy JSON', 2000) } catch (e) { console.error('Copy failed:', e) } }
                     function toggleViewMode() { viewMode = viewMode === 'filtered' ? 'full' : 'filtered'; const b = document.getElementById('viewModeBtn'); b.innerHTML = viewMode === 'filtered' ? '🔍 Filtered View' : '📋 Full HAR View'; b.classList.toggle('active', viewMode === 'filtered'); updateStats(); renderResults() }
-                    function processHARFile(f) { const r = new FileReader(); r.onload = function (e) { try { document.getElementById('loading').classList.add('active'); document.getElementById('uploadZone').classList.add('hidden'); harData = JSON.parse(e.target.result); allEntries = harData.log.entries; filteredEntries = filterEntries(allEntries); groupedEndpoints = groupByEndpoint(filteredEntries); setTimeout(() => { document.getElementById('loading').classList.remove('active'); document.getElementById('statsBar').classList.remove('hidden'); document.getElementById('controls').classList.remove('hidden'); updateStats(); renderResults() }, 500) } catch (err) { alert('Error parsing HAR file: ' + err.message); document.getElementById('loading').classList.remove('active'); document.getElementById('uploadZone').classList.remove('hidden') } }; r.readAsText(f) }
+                    function processHARFile(f) { const r = new FileReader(); r.onload = function (e) { try { document.getElementById('loading').classList.add('active'); document.getElementById('uploadZone').classList.add('hidden'); let parsed; try { parsed = JSON.parse(e.target.result) } catch (pe) { throw new Error('File is not valid JSON — it may be corrupted or not a HAR file.') } if (!parsed.log) throw new Error('Missing "log" object — this doesn\'t appear to be a valid HAR file.'); if (!Array.isArray(parsed.log.entries)) throw new Error('Missing "log.entries" array — the HAR file structure is incomplete.'); if (parsed.log.entries.length === 0) throw new Error('HAR file contains 0 entries — the capture may be empty.'); harData = parsed; allEntries = harData.log.entries; filteredEntries = filterEntries(allEntries); groupedEndpoints = groupByEndpoint(filteredEntries); setTimeout(() => { document.getElementById('loading').classList.remove('active'); document.getElementById('statsBar').classList.remove('hidden'); document.getElementById('controls').classList.remove('hidden'); document.getElementById('methodFilters').classList.remove('hidden'); document.getElementById('statusLegend').classList.remove('hidden'); updateStats(); renderResults() }, 500) } catch (err) { showError(err.message); document.getElementById('loading').classList.remove('active'); document.getElementById('uploadZone').classList.remove('hidden') } }; r.readAsText(f) }
                     const handleSearch = debounce((t) => { currentSearchTerm = t; renderResults() }, 300);
                     function exportSummary() { const e = viewMode === 'filtered' ? filteredEntries : allEntries; let ec = 0, sc = 0; e.forEach(x => { if (x.response.status >= 400) ec++; if (x.time >= SLOW_REQUEST_THRESHOLD) sc++ }); const md = `# HAR Analysis Summary\n\n**Generated:** ${new Date().toLocaleString()}\n**View Mode:** ${viewMode === 'filtered' ? 'Filtered (API calls only)' : 'Full HAR'}\n\n## Overview\n\n- **Total Entries:** ${e.length}\n- **Unique Endpoints:** ${Object.keys(groupedEndpoints).length}\n- **Errors Detected:** ${ec}\n- **Slow Requests (>${SLOW_REQUEST_THRESHOLD}ms):** ${sc}\n\n`; navigator.clipboard.writeText(md); const b = document.getElementById('exportBtn'), ot = b.innerHTML; b.innerHTML = '✓ Copied to Clipboard!'; setTimeout(() => b.innerHTML = ot, 2000) }
-                    function clearData() { harData = null; allEntries = []; filteredEntries = []; groupedEndpoints = {}; currentSearchTerm = ''; viewMode = 'filtered'; activeFilters.clear(); document.getElementById('statsBar').classList.add('hidden'); document.getElementById('controls').classList.add('hidden'); document.getElementById('uploadZone').classList.remove('hidden'); document.getElementById('results').innerHTML = ''; document.getElementById('searchInput').value = ''; document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('active')); const b = document.getElementById('viewModeBtn'); b.innerHTML = '🔍 Filtered View'; b.classList.add('active') }
+                    function clearData() { harData = null; allEntries = []; filteredEntries = []; groupedEndpoints = {}; currentSearchTerm = ''; viewMode = 'filtered'; activeFilters.clear(); document.getElementById('statsBar').classList.add('hidden'); document.getElementById('controls').classList.add('hidden'); document.getElementById('methodFilters').classList.add('hidden'); document.getElementById('statusLegend').classList.add('hidden'); document.getElementById('uploadZone').classList.remove('hidden'); document.getElementById('results').innerHTML = ''; document.getElementById('searchInput').value = ''; document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('active')); document.querySelectorAll('.method-filter-btn').forEach(b => b.classList.remove('active')); const b = document.getElementById('viewModeBtn'); b.innerHTML = '🔍 Filtered View'; b.classList.add('active') }
                     function toggleFloatingButtons(hide) { const btns = [document.getElementById('scrollTopBtn'), document.getElementById('themeBtn')]; btns.forEach(b => { if (b) b.style.display = hide ? 'none' : '' }) }
                     function switchDocTab(t) { document.querySelectorAll('.doc-tab-btn').forEach(b => b.classList.remove('active')); document.querySelectorAll('.doc-tab-content').forEach(c => c.classList.remove('active')); document.querySelector(`button[onclick="switchDocTab('${t}')"]`).classList.add('active'); document.getElementById(`tab-${t}`).classList.add('active') }
-                    document.addEventListener('DOMContentLoaded', function () { const savedTheme = localStorage.getItem('harAnalyzerTheme') || 'darkpurple'; applyTheme(savedTheme); const uz = document.getElementById('uploadZone'), fi = document.getElementById('fileInput'); uz.addEventListener('click', () => fi.click()); fi.addEventListener('change', e => { if (e.target.files[0]) processHARFile(e.target.files[0]) }); uz.addEventListener('dragover', e => { e.preventDefault(); uz.classList.add('drag-over') }); uz.addEventListener('dragleave', () => uz.classList.remove('drag-over')); uz.addEventListener('drop', e => { e.preventDefault(); uz.classList.remove('drag-over'); const f = e.dataTransfer.files[0]; if (f && f.name.endsWith('.har')) processHARFile(f); else alert('Please drop a valid .har file') }); document.getElementById('searchInput').addEventListener('input', e => handleSearch(e.target.value)); const ht = document.getElementById('highlightToggle'); if (ht) { ht.addEventListener('change', e => { highlightMatches = e.target.checked; renderResults() }) } document.getElementById('viewModeBtn').addEventListener('click', toggleViewMode); document.getElementById('exportBtn').addEventListener('click', exportSummary); document.getElementById('clearBtn').addEventListener('click', clearData); document.getElementById('statCardAll').addEventListener('click', () => { activeFilters.clear(); document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('active')); document.getElementById('statCardAll').classList.add('active'); renderResults() }); document.getElementById('statCardErrors').addEventListener('click', () => { if (activeFilters.has('errors')) { activeFilters.delete('errors'); document.getElementById('statCardErrors').classList.remove('active') } else { activeFilters.add('errors'); document.getElementById('statCardErrors').classList.add('active'); document.getElementById('statCardAll').classList.remove('active') } if (activeFilters.size === 0) document.getElementById('statCardAll').classList.add('active'); renderResults() }); document.getElementById('statCardSlow').addEventListener('click', () => { if (activeFilters.has('slow')) { activeFilters.delete('slow'); document.getElementById('statCardSlow').classList.remove('active') } else { activeFilters.add('slow'); document.getElementById('statCardSlow').classList.add('active'); document.getElementById('statCardAll').classList.remove('active') } if (activeFilters.size === 0) document.getElementById('statCardAll').classList.add('active'); renderResults() }); const thb = document.getElementById('themeBtn'), thm = document.getElementById('themeModal'); thb.addEventListener('click', e => { e.stopPropagation(); thm.classList.toggle('active'); toggleFloatingButtons(thm.classList.contains('active')) }); const abb = document.getElementById('aboutBtn'), abm = document.getElementById('aboutModal'); abb.addEventListener('click', e => { e.stopPropagation(); abm.classList.toggle('active'); toggleFloatingButtons(abm.classList.contains('active')) }); const docb = document.getElementById('docBtn'), docm = document.getElementById('docModal'), docc = document.getElementById('docCloseBtn'); docb.addEventListener('click', e => { e.stopPropagation(); docm.classList.add('active'); abm.classList.remove('active'); toggleFloatingButtons(true) }); docc.addEventListener('click', () => { docm.classList.remove('active'); toggleFloatingButtons(false) }); document.addEventListener('click', e => { if (!abm.contains(e.target) && !abb.contains(e.target)) { if (abm.classList.contains('active')) toggleFloatingButtons(false); abm.classList.remove('active') } if (!thm.contains(e.target) && !thb.contains(e.target)) { if (thm.classList.contains('active')) toggleFloatingButtons(false); thm.classList.remove('active') } if (!docm.contains(e.target) && !docb.contains(e.target)) { if (docm.classList.contains('active')) toggleFloatingButtons(false); docm.classList.remove('active') } }); document.getElementById('changelogBtn').addEventListener('click', e => { e.stopPropagation(); document.getElementById('terminalContent').innerHTML = renderChangelog(); document.getElementById('terminalBackdrop').classList.add('active') }); const tbb = document.getElementById('terminalBackdrop'), tbm = document.getElementById('terminalModal'); document.getElementById('terminalCloseBtn').addEventListener('click', () => tbb.classList.remove('active')); tbb.addEventListener('click', e => { if (e.target === tbb) tbb.classList.remove('active') }); tbm.addEventListener('click', e => e.stopPropagation()); document.addEventListener('keydown', e => { if (e.key === 'Escape') { tbb.classList.remove('active'); docm.classList.remove('active'); toggleFloatingButtons(false) } }); const stb = document.getElementById('scrollTopBtn'); window.addEventListener('scroll', () => stb.classList.toggle('visible', window.pageYOffset > 300)); stb.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' })) });
-                    window.toggleEndpoint = toggleEndpoint; window.copyResponse = copyResponse; window.switchDocTab = switchDocTab;
+                    document.addEventListener('DOMContentLoaded', function () { const savedTheme = localStorage.getItem('harAnalyzerTheme') || 'darkpurple'; applyTheme(savedTheme); const uz = document.getElementById('uploadZone'), fi = document.getElementById('fileInput'); uz.addEventListener('click', () => fi.click()); fi.addEventListener('change', e => { if (e.target.files[0]) processHARFile(e.target.files[0]) }); uz.addEventListener('dragover', e => { e.preventDefault(); uz.classList.add('drag-over') }); uz.addEventListener('dragleave', () => uz.classList.remove('drag-over')); uz.addEventListener('drop', e => { e.preventDefault(); uz.classList.remove('drag-over'); const f = e.dataTransfer.files[0]; if (f && f.name.endsWith('.har')) processHARFile(f); else showError('Please drop a valid .har file — the file must have a .har extension.') }); document.getElementById('searchInput').addEventListener('input', e => handleSearch(e.target.value)); const ht = document.getElementById('highlightToggle'); if (ht) { ht.addEventListener('change', e => { highlightMatches = e.target.checked; renderResults() }) } document.getElementById('viewModeBtn').addEventListener('click', toggleViewMode); document.getElementById('exportBtn').addEventListener('click', exportSummary); document.getElementById('clearBtn').addEventListener('click', clearData); document.getElementById('statCardAll').addEventListener('click', () => { activeFilters.clear(); document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('active')); document.getElementById('statCardAll').classList.add('active'); renderResults() }); document.getElementById('statCardErrors').addEventListener('click', () => { if (activeFilters.has('errors')) { activeFilters.delete('errors'); document.getElementById('statCardErrors').classList.remove('active') } else { activeFilters.add('errors'); document.getElementById('statCardErrors').classList.add('active'); document.getElementById('statCardAll').classList.remove('active') } if (activeFilters.size === 0) document.getElementById('statCardAll').classList.add('active'); renderResults() }); document.getElementById('statCardSlow').addEventListener('click', () => { if (activeFilters.has('slow')) { activeFilters.delete('slow'); document.getElementById('statCardSlow').classList.remove('active') } else { activeFilters.add('slow'); document.getElementById('statCardSlow').classList.add('active'); document.getElementById('statCardAll').classList.remove('active') } if (activeFilters.size === 0) document.getElementById('statCardAll').classList.add('active'); renderResults() }); const thb = document.getElementById('themeBtn'), thm = document.getElementById('themeModal'); thb.addEventListener('click', e => { e.stopPropagation(); thm.classList.toggle('active'); toggleFloatingButtons(thm.classList.contains('active')) }); const abb = document.getElementById('aboutBtn'), abm = document.getElementById('aboutModal'); abb.addEventListener('click', e => { e.stopPropagation(); abm.classList.toggle('active'); toggleFloatingButtons(abm.classList.contains('active')) }); const docb = document.getElementById('docBtn'), docm = document.getElementById('docModal'), docc = document.getElementById('docCloseBtn'); docb.addEventListener('click', e => { e.stopPropagation(); docm.classList.add('active'); abm.classList.remove('active'); toggleFloatingButtons(true) }); docc.addEventListener('click', () => { docm.classList.remove('active'); toggleFloatingButtons(false) }); document.addEventListener('click', e => { if (!abm.contains(e.target) && !abb.contains(e.target)) { if (abm.classList.contains('active')) toggleFloatingButtons(false); abm.classList.remove('active') } if (!thm.contains(e.target) && !thb.contains(e.target)) { if (thm.classList.contains('active')) toggleFloatingButtons(false); thm.classList.remove('active') } if (!docm.contains(e.target) && !docb.contains(e.target)) { if (docm.classList.contains('active')) toggleFloatingButtons(false); docm.classList.remove('active') } }); document.getElementById('changelogBtn').addEventListener('click', e => { e.stopPropagation(); document.getElementById('terminalContent').innerHTML = renderChangelog(); document.getElementById('terminalBackdrop').classList.add('active') }); const tbb = document.getElementById('terminalBackdrop'), tbm = document.getElementById('terminalModal'); document.getElementById('terminalCloseBtn').addEventListener('click', () => tbb.classList.remove('active')); tbb.addEventListener('click', e => { if (e.target === tbb) tbb.classList.remove('active') }); tbm.addEventListener('click', e => e.stopPropagation()); document.addEventListener('keydown', e => { if (e.key === 'Escape') { tbb.classList.remove('active'); docm.classList.remove('active'); document.getElementById('errorBackdrop').classList.remove('active'); document.getElementById('feedbackBackdrop').classList.remove('active'); toggleFloatingButtons(false) } }); /* Error modal retry */ document.getElementById('errorRetryBtn').addEventListener('click', () => { document.getElementById('errorBackdrop').classList.remove('active') }); const errBd = document.getElementById('errorBackdrop'); errBd.addEventListener('click', e => { if (e.target === errBd) errBd.classList.remove('active') }); /* Method filter buttons */ document.querySelectorAll('.method-filter-btn').forEach(btn => { btn.addEventListener('click', () => { const mKey = 'method-' + btn.dataset.method; if (activeFilters.has(mKey)) { activeFilters.delete(mKey); btn.classList.remove('active') } else { activeFilters.add(mKey); btn.classList.add('active') } renderResults() }) }); /* Feedback modal */ const fbBtn = document.getElementById('feedbackBtn'); const fbBd = document.getElementById('feedbackBackdrop'); if (fbBtn) { fbBtn.addEventListener('click', e => { e.stopPropagation(); abm.classList.remove('active'); if (FEEDBACK_FORM_URL) document.getElementById('feedbackIframe').src = FEEDBACK_FORM_URL; fbBd.classList.add('active') }) } document.getElementById('feedbackCloseBtn').addEventListener('click', () => fbBd.classList.remove('active')); fbBd.addEventListener('click', e => { if (e.target === fbBd) fbBd.classList.remove('active') }); const stb = document.getElementById('scrollTopBtn'); window.addEventListener('scroll', () => stb.classList.toggle('visible', window.pageYOffset > 300)); stb.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' })) });
+                    window.toggleEndpoint = toggleEndpoint; window.copyResponse = copyResponse; window.switchDocTab = switchDocTab; window.copyCurl = copyCurl;
                 </script>
 </body>
 
