@@ -2,6 +2,15 @@
 
 All notable changes to this project are documented here. The app is a single-file HTML utility, so version bumps are tied to UI/UX fixes and feature polish.
 
+## 1.0.0
+- Added HTTP method filter bar (GET, POST, PUT, PATCH, DELETE toggle buttons).
+- Added "Copy as cURL" button on every API call card for quick endpoint reproduction.
+- Added hover tooltips on status badges showing human-readable descriptions (e.g., "404 — Not Found").
+- Added always-visible status/badge legend bar below the stats dashboard.
+- Replaced `alert()` error handling with a styled error modal and added HAR validation guards.
+- Added in-app feedback form modal (Google Form embed, replacing mailto link).
+- Removed alpha disclaimer; updated to stable release status.
+
 ## 1.0.0-rc.2
 - Added "EMPTY" badge for API calls that return 2xx with no response body.
 - Empty response count displayed in endpoint group headers.
