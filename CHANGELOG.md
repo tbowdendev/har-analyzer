@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented here. The app is a single-file HTML utility, so version bumps are tied to UI/UX fixes and feature polish.
 
+## 1.1
+- **Cortex Cloud noise filtering:** background requests (notification polling, UI persistent storage, XSOAR session sync, CSP violation reports) are now suppressed in filtered view.
+- **Cortex Cloud product-area labels:** every API call card shows a module chip (XQL Query, CIEM, Cloud Security, Cloud Workload Protection, Code Security, Vuln Management, API Security, Data Classification, AI Copilot, Asset Inventory, Contextual Search, XSOAR Automation, XSOAR Incident, XSOAR Case, XSOAR Playbook, and more).
+- Category mapping built from real HAR traffic — 166 normalized endpoint patterns captured across 14 HAR files.
+
 ## 1.0.0
 - Added HTTP method filter bar (GET, POST, PUT, PATCH, DELETE toggle buttons).
 - Added "Copy as cURL" button on every API call card for quick endpoint reproduction.
