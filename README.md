@@ -3,32 +3,10 @@ A self-contained HAR inspection tool built for Palo Alto Networks traffic. Drop 
 ## Supported Platforms
 
 ### Cortex Cloud (`*.paloaltonetworks.com`)
-| Module | Coverage |
-|---|---|
-| XDR — Incidents, Alerts | `/api/webapp/incident*`, `/api/webapp/alerts` |
-| XSIAM — Cases, XQL, XSOAR | `/api/webapp/case*`, `/api/webapp/xql`, `/xsoar/*` |
-| CSPM — Cloud Security | `/api/cloudsec/v1` |
-| CIEM | `/api/ciem/v1` |
-| CAS — Code Security | `/api/cas/v1`, `/api/cas/v2` |
-| CWP / Runtime | `/api/cwp/bff` |
-| Vuln Management | `/api/uvm/v1`, `/api/webapp/uvm`, `/api/v1/vulnerabilities` |
-| ASM | `/api/webapp/asm` |
-| API Security | `/api/apisec` |
-| AI Copilot | `/api/v1/agentix` |
-| Asset Inventory | `/api/webapp/data-platform/unified-asset-inventory` |
-| Contextual Search | `/api/webapp/data-platform/contextual-search-graph` |
-| Data Classification (DSPM) | `/api/data-classification-settings` |
-| Asset Network | `/api/v1/asset-network` |
-| Cloud Onboarding | `/api/webapp/cloud_onboarding` |
+CSPM is fully supported. Additional modules (XSIAM, XDR, CAS, CWP, CIEM, and more) are in progress.
 
 ### Prisma Cloud (`*.prismacloud.io`)
-| Module | Coverage |
-|---|---|
-| CSPM | All API traffic from Prisma Cloud domain |
-| CAS — Code Security | `/api/cas/v1`, `/api/cas/v2` |
-| CWP / Runtime | `/api/cwp/bff` |
-| Data Classification (DSPM) | `/api/data-classification-settings` |
-| CIEM | `/api/ciem/v1` |
+All Prisma Cloud modules are supported. DSPM, CAS, and CWP coverage is partial — endpoint mapping continues to expand with real HAR traffic.
 
 ## Features
 
