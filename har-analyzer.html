@@ -1680,7 +1680,7 @@
             <button class="btn btn-secondary" id="changelogBtn"
                 style="margin-top:var(--space-xs);width:100%;justify-content:center;">📜 Changelog</button>
         </div>
-        <div class="about-version">Version 1.1</div>
+        <div class="about-version">Version 1.2</div>
     </div>
     <div class="terminal-backdrop" id="terminalBackdrop">
         <div class="terminal-modal" id="terminalModal">
@@ -1946,7 +1946,8 @@
                     };
                     function getDocUrl(method, url) { try { const toUrl = s => `https://pan.dev/prisma-cloud/api/${s.replace(/([a-z])(\d)/g, '$1-$2')}/`; const normPath = p => p.replace(/\/$/, '').replace(/\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi, '/{id}').replace(/\/[0-9a-f]{24,}/gi, '/{id}').replace(/\/[0-9]+/g, '/{id}'); const m = method.toUpperCase(); const parts = normPath(new URL(url).pathname).split('/'); let slug = PRISMA_DOC_MAP[`${m} ${parts.join('/')}`]; if (slug) return toUrl(slug); for (let i = parts.length - 1; i > 1; i--) { if (parts[i] === '{id}') continue; parts[i] = '{id}'; slug = PRISMA_DOC_MAP[`${m} ${parts.join('/')}`]; if (slug) return toUrl(slug); } return null; } catch (_) { return null; } }
                     const CHANGELOG = [
-                        { version: '1.1', changes: ['Cortex Cloud: filter background noise (notification polling, UI storage, XSOAR session sync, CSP reports)', 'Cortex Cloud: product-area labels on every API call card (XQL Query, CIEM, Cloud Security, XSOAR, AI Copilot, and more)', 'Built from real HAR traffic — 166 normalized endpoint patterns across 14 HAR files'] },
+                        { version: '1.2', changes: ['API documentation links on every API call card — links directly to the pan.dev CSPM endpoint reference', 'Path normalization and progressive fallback for calls with specific resource IDs', 'Correct slug generation for versioned paths (v2, v3) matching pan.dev URL conventions'] },
+                        { version: '1.1', changes: ['Cortex Cloud: filter background noise (notification polling, UI storage, XSOAR session sync, CSP reports)', 'Cortex Cloud: product-area labels on every API call card (XQL Query, CIEM, Cloud Security, XSOAR, AI Copilot, and more)', 'Built from real HAR traffic — 166 normalized endpoint patterns across 14 HAR files', 'Legend bar is now interactive — click any badge to filter results by that badge type', 'Payload viewer: request body content viewable inline with JSON syntax highlighting', 'Fixed status badge tooltip arrow positioning across all themes'] },
                         { version: '1.0.0', changes: ['Added HTTP method filter bar (GET, POST, PUT, PATCH, DELETE)', 'Added Copy as cURL button on every API call', 'Added status code tooltips on hover with descriptions', 'Added always-visible status legend bar', 'Added styled error modal for invalid/corrupted HAR files with validation', 'Added in-app feedback form (Google Form embed)', 'Updated disclaimer and removed alpha status', 'Version 1.0.0 — first stable release'] },
                         { version: '1.0.0-rc.2', changes: ['Added "EMPTY" badge for 2xx responses with no body', 'Empty count shown in endpoint group headers', 'Fixed broken icons (⏲/📄) in API call details', 'Fixed filtering to include empty 200 responses from allowed domains'] },
                         { version: '1.0.0-rc.1', changes: ['Fixed theme picker to stay open when selecting themes', 'Fixed documentation modal CSS and z-index layering', 'UI improvements for better theme comparison'] },
