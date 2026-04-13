@@ -2,10 +2,18 @@
 
 All notable changes to this project are documented here. The app is a single-file HTML utility, so version bumps are tied to UI/UX fixes and feature polish.
 
+## 1.2
+- **API documentation links:** every API call card now shows a direct link to the relevant pan.dev CSPM endpoint reference page.
+- Path normalization and progressive fallback — calls with specific resource IDs (alert IDs, account IDs, UUIDs) resolve to the correct parent endpoint doc.
+- Correct slug generation for versioned paths (`v2`, `v3` → `v-2`, `v-3`) matching pan.dev URL conventions.
+
 ## 1.1
 - **Cortex Cloud noise filtering:** background requests (notification polling, UI persistent storage, XSOAR session sync, CSP violation reports) are now suppressed in filtered view.
 - **Cortex Cloud product-area labels:** every API call card shows a module chip (XQL Query, CIEM, Cloud Security, Cloud Workload Protection, Code Security, Vuln Management, API Security, Data Classification, AI Copilot, Asset Inventory, Contextual Search, XSOAR Automation, XSOAR Incident, XSOAR Case, XSOAR Playbook, and more).
 - Category mapping built from real HAR traffic — 166 normalized endpoint patterns captured across 14 HAR files.
+- **Legend bar filters:** clicking any badge in the legend bar now filters results to that badge type (2xx, 3xx, 4xx, 5xx, slow, empty, no response).
+- **Payload viewer:** request body content is now viewable inline on each API call card with JSON syntax highlighting.
+- **Tooltip arrow fix:** status badge tooltips now display with correct arrow positioning across all themes.
 
 ## 1.0.0
 - Added HTTP method filter bar (GET, POST, PUT, PATCH, DELETE toggle buttons).

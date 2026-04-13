@@ -19,6 +19,7 @@ All Prisma Cloud modules are supported. DSPM, CAS, and CWP coverage is partial â
 
 **Inspection**
 - Per-call product-area label chip (e.g. "XQL Query", "CIEM", "Cloud Workload Protection")
+- Direct link to the pan.dev API reference page for each recognized CSPM endpoint
 - Response body viewer with JSON syntax highlighting and copy-to-clipboard
 - Payload viewer for request bodies
 - Copy request as **cURL** command
@@ -45,6 +46,13 @@ All Prisma Cloud modules are supported. DSPM, CAS, and CWP coverage is partial â
 4. Click an endpoint group to expand individual calls; expand a call for full request/response detail
 5. Use the product-area chip to identify which Cortex/Prisma module each call belongs to
 6. Export a Markdown summary or copy individual calls as cURL
+
+## Upcoming
+
+- Expand Cortex Cloud module coverage â€” additional endpoint mapping for XSIAM, XDR, and CAS
+- Expand Prisma Cloud coverage â€” deeper endpoint mapping for DSPM, CAS, and CWP modules
+- Extend API documentation links to cover additional endpoint categories beyond CSPM
+- Custom branding support â€” allow swapping in company-provided logos and accent colors
 
 ## Notes
 
