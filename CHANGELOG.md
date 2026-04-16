@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here. The app is a single-file HTML utility, so version bumps are tied to UI/UX fixes and feature polish.
 
+## 1.3
+- **Cortex Cloud theme:** dedicated theme matching the internal Cortex Cloud Hub design language — black header bar, green-600 accent, flat dark surfaces, no glass morphism.
+- **Prisma Cloud theme:** same structure as Cortex but with cyan-600 accent and Prisma Cloud branding.
+- **Auto-detection:** loading a HAR file automatically detects whether it contains Cortex (`paloaltonetworks.com`) or Prisma (`prismacloud.io`) traffic and switches to the matching theme.
+- Dynamic header — logo and subtitle swap between Cortex Cloud / Prisma Cloud / default based on active theme.
+
 ## 1.2
 - **API documentation links:** every API call card now shows a direct link to the relevant pan.dev CSPM endpoint reference page.
 - Path normalization and progressive fallback — calls with specific resource IDs (alert IDs, account IDs, UUIDs) resolve to the correct parent endpoint doc.
