@@ -107,8 +107,9 @@
 
         .header {
             text-align: center;
-            margin-bottom: var(--space-2xl);
-            padding: var(--space-xl) 0
+            padding: var(--space-xl) var(--space-xl) 0;
+            max-width: 1400px;
+            margin: 0 auto var(--space-2xl);
         }
 
         .header-logo {
@@ -1569,18 +1570,14 @@
             -webkit-backdrop-filter: none !important;
         }
 
-        /* --- Header: solid black bar, full viewport width, green bottom border --- */
+        /* --- Header: solid black bar, full width, green bottom border --- */
         [data-theme="cortex"] .header {
             text-align: left;
             background: #000000;
-            width: 100vw;
-            position: relative;
-            left: 50%;
-            margin-left: -50vw;
-            margin-right: -50vw;
-            margin-top: calc(-1 * var(--space-xl));
-            margin-bottom: 0;
-            padding: 14px calc(50vw - 50% + var(--space-xl));
+            max-width: 100%;
+            width: 100%;
+            margin: 0 0 0 0;
+            padding: 14px var(--space-xl);
             display: flex;
             align-items: center;
             gap: var(--space-md);
@@ -1635,9 +1632,14 @@
             margin-top: 1px;
         }
 
+        /* --- Container: tighter top padding --- */
+        [data-theme="cortex"] .container {
+            padding-top: var(--space-lg);
+        }
+
         /* --- Stat cards: gray-800, green border --- */
         [data-theme="cortex"] .stats-bar {
-            margin-top: var(--space-xl);
+            margin-top: 0;
         }
 
         [data-theme="cortex"] .stat-card {
@@ -1671,6 +1673,8 @@
             background: #1f2937;
             border: 2px dashed rgba(22,163,74,0.3);
             border-radius: 8px;
+            padding: var(--space-xl);
+            margin-bottom: var(--space-lg);
         }
 
         [data-theme="cortex"] .upload-zone:hover,
@@ -1944,7 +1948,6 @@
             }
 
             [data-theme="cortex"] .header {
-                margin-top: calc(-1 * var(--space-md));
                 padding: 10px var(--space-md);
                 gap: var(--space-sm);
             }
@@ -2024,20 +2027,20 @@
 </head>
 
 <body>
+    <header class="header">
+        <div class="header-logo">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 5C25.15 5 5 25.15 5 50c0 24.85 20.15 45 45 45v-18c-14.91 0-27-12.09-27-27s12.09-27 27-27V5z" fill="#4CAF50"/>
+                <circle cx="50" cy="50" r="22" fill="#4CAF50"/>
+                <path d="M50 5v18c14.91 0 27 12.09 27 27H50V5z" fill="#388E3C"/>
+            </svg>
+        </div>
+        <div class="header-text">
+            <h1>HAR Analyzer</h1>
+            <p class="header-subtitle">Cortex Cloud Support Tool</p>
+        </div>
+    </header>
     <div class="container">
-        <header class="header">
-            <div class="header-logo">
-                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M50 5C25.15 5 5 25.15 5 50c0 24.85 20.15 45 45 45v-18c-14.91 0-27-12.09-27-27s12.09-27 27-27V5z" fill="#4CAF50"/>
-                    <circle cx="50" cy="50" r="22" fill="#4CAF50"/>
-                    <path d="M50 5v18c14.91 0 27 12.09 27 27H50V5z" fill="#388E3C"/>
-                </svg>
-            </div>
-            <div class="header-text">
-                <h1>HAR Analyzer</h1>
-                <p class="header-subtitle">Cortex Cloud Support Tool</p>
-            </div>
-        </header>
         <div class="stats-bar hidden" id="statsBar">
             <div class="stat-card" data-filter="all" id="statCardAll">
                 <div class="stat-label">Total Entries</div>
