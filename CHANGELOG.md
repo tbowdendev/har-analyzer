@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented here. The app is a single-file HTML utility, so version bumps are tied to UI/UX fixes and feature polish.
 
+## 1.3
+- **Cortex Cloud theme:** dedicated theme matching the internal Cortex Cloud Hub design language — black header bar, green-600 accent, flat dark surfaces, no glass morphism.
+- **Prisma Cloud theme:** same structure as Cortex but with cyan-600 accent and Prisma Cloud branding.
+- **PANW Orange theme:** redesigned to match the Cortex/Prisma hub style — black header bar, orange-600 accent, flat surfaces, dedicated PANW logo and "Cloud Support Tool" subtitle.
+- **Theme system trimmed:** removed legacy themes (Dark Purple, Light, Cyberpunk, Sunset, Forest); the picker now ships with just Cortex Cloud, Prisma Cloud, and PANW Orange.
+- **Default theme is Cortex Cloud.** Invalid or stale saved themes fall back cleanly instead of failing silently.
+- **Auto-detection:** loading a HAR file automatically detects whether it contains Cortex (`paloaltonetworks.com`) or Prisma (`prismacloud.io`) traffic and switches to the matching theme.
+- **Dynamic header** — logo and subtitle swap between Cortex Cloud / Prisma Cloud / PANW Orange / default based on active theme.
+- **Theme-matched favicon** — the browser tab icon swaps to match the active theme (green / cyan / orange), keeping the tab consistent with the detected platform.
+
 ## 1.2
 - **API documentation links:** every API call card now shows a direct link to the relevant pan.dev CSPM endpoint reference page.
 - Path normalization and progressive fallback — calls with specific resource IDs (alert IDs, account IDs, UUIDs) resolve to the correct parent endpoint doc.
