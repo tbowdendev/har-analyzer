@@ -1569,13 +1569,18 @@
             -webkit-backdrop-filter: none !important;
         }
 
-        /* --- Header: solid black bar, green bottom border --- */
+        /* --- Header: solid black bar, full viewport width, green bottom border --- */
         [data-theme="cortex"] .header {
             text-align: left;
             background: #000000;
-            margin: calc(-1 * var(--space-xl));
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            margin-top: calc(-1 * var(--space-xl));
             margin-bottom: 0;
-            padding: 14px var(--space-xl);
+            padding: 14px calc(50vw - 50% + var(--space-xl));
             display: flex;
             align-items: center;
             gap: var(--space-md);
@@ -1939,8 +1944,7 @@
             }
 
             [data-theme="cortex"] .header {
-                margin: calc(-1 * var(--space-md));
-                margin-bottom: 0;
+                margin-top: calc(-1 * var(--space-md));
                 padding: 10px var(--space-md);
                 gap: var(--space-sm);
             }
