@@ -1550,30 +1550,43 @@
             word-break: break-all
         }
 
-        /* ===== Cortex Cloud theme structural overrides ===== */
-        [data-theme="cortex"] body::before {
-            opacity: 0.15;
+        /* ===== Cortex Cloud theme — 1:1 hub design ===== */
+
+        /* Kill animated background */
+        [data-theme="cortex"] body::before { display: none; }
+
+        /* Kill ALL backdrop-filter and glass globally */
+        [data-theme="cortex"] .stat-card,
+        [data-theme="cortex"] .upload-zone,
+        [data-theme="cortex"] .search-input,
+        [data-theme="cortex"] .btn-secondary,
+        [data-theme="cortex"] .btn-toggle,
+        [data-theme="cortex"] .endpoint-group,
+        [data-theme="cortex"] .about-modal,
+        [data-theme="cortex"] .theme-modal,
+        [data-theme="cortex"] .badge-count {
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
         }
 
+        /* --- Header: solid black bar, green bottom border --- */
         [data-theme="cortex"] .header {
             text-align: left;
             background: #000000;
             margin: calc(-1 * var(--space-xl));
             margin-bottom: 0;
-            padding: var(--space-md) var(--space-xl);
+            padding: 14px var(--space-xl);
             display: flex;
             align-items: center;
             gap: var(--space-md);
             border-bottom: 2px solid #16a34a;
-            position: sticky;
-            top: 0;
-            z-index: 50;
+            border-radius: 0;
         }
 
         [data-theme="cortex"] .header-logo {
             width: 40px;
             height: 40px;
-            border-radius: 10px;
+            border-radius: 0;
             margin-bottom: 0;
             background: transparent;
             border: none;
@@ -1582,8 +1595,11 @@
             -webkit-backdrop-filter: none;
         }
 
-        [data-theme="cortex"] .header-logo::before {
-            display: none;
+        [data-theme="cortex"] .header-logo::before { display: none; }
+
+        [data-theme="cortex"] .header-logo:hover {
+            transform: none;
+            box-shadow: none;
         }
 
         [data-theme="cortex"] .header-logo svg {
@@ -1602,145 +1618,315 @@
             -webkit-background-clip: unset;
             -webkit-text-fill-color: #ffffff;
             background-clip: unset;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
+            font-weight: 700;
             margin-bottom: 0;
             letter-spacing: -0.01em;
         }
 
         [data-theme="cortex"] .header-subtitle {
-            color: #9ca3af;
-            font-size: 0.8rem;
-            margin-top: 2px;
+            color: #4ade80;
+            font-size: 0.75rem;
+            margin-top: 1px;
         }
 
+        /* --- Stat cards: gray-800, green border --- */
         [data-theme="cortex"] .stats-bar {
             margin-top: var(--space-xl);
         }
 
         [data-theme="cortex"] .stat-card {
-            background: #111827;
+            background: #1f2937;
             border: 1px solid rgba(22,163,74,0.15);
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
+            border-radius: 8px;
         }
 
         [data-theme="cortex"] .stat-card:hover {
+            transform: none;
             border-color: rgba(22,163,74,0.4);
-            box-shadow: 0 4px 24px rgba(22,163,74,0.08);
+            box-shadow: none;
         }
 
         [data-theme="cortex"] .stat-card.active {
-            border: 2px solid #16a34a;
+            border: 1px solid #16a34a;
             background: rgba(22,163,74,0.08);
+            box-shadow: none;
+            transform: none;
         }
 
+        [data-theme="cortex"] .stat-gradient {
+            background: none;
+            -webkit-background-clip: unset;
+            -webkit-text-fill-color: #4ade80;
+            background-clip: unset;
+        }
+
+        /* --- Upload zone: gray-800, dashed green border --- */
         [data-theme="cortex"] .upload-zone {
-            background: #111827;
+            background: #1f2937;
             border: 2px dashed rgba(22,163,74,0.3);
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
+            border-radius: 8px;
         }
 
         [data-theme="cortex"] .upload-zone:hover,
         [data-theme="cortex"] .upload-zone.drag-over {
             border-color: #16a34a;
-            background: rgba(22,163,74,0.06);
+            background: #1f2937;
+            transform: none;
         }
 
-        [data-theme="cortex"] .endpoint-group {
-            background: #111827;
-            border: 1px solid rgba(22,163,74,0.15);
-            border-left: 4px solid #16a34a;
-        }
-
-        [data-theme="cortex"] .endpoint-group:hover {
-            border-color: rgba(22,163,74,0.35);
-            border-left-color: #22c55e;
-        }
-
-        [data-theme="cortex"] .endpoint-group.highlighted {
-            border-left-color: #16a34a;
-        }
-
-        [data-theme="cortex"] .api-call {
-            background: rgba(17,24,39,0.6);
-            border: 1px solid rgba(22,163,74,0.1);
-        }
-
+        /* --- Method filter buttons --- */
         [data-theme="cortex"] .method-filter-btn {
-            background: #111827;
-            border-color: rgba(22,163,74,0.2);
+            background: #1f2937;
+            border: 1px solid rgba(22,163,74,0.2);
+            border-radius: 6px;
         }
 
         [data-theme="cortex"] .method-filter-btn:hover {
             border-color: #16a34a;
         }
 
-        [data-theme="cortex"] .status-legend {
-            background: #111827;
-            border: 1px solid rgba(22,163,74,0.15);
-        }
-
-        [data-theme="cortex"] .controls .search-box {
-            background: #111827;
-            border-color: rgba(22,163,74,0.2);
-        }
-
-        [data-theme="cortex"] .controls .search-input:focus {
+        [data-theme="cortex"] .method-filter-btn.active {
             border-color: #16a34a;
-            box-shadow: 0 0 0 2px rgba(22,163,74,0.15);
+        }
+
+        /* --- Legend bar --- */
+        [data-theme="cortex"] .status-legend {
+            background: #1f2937;
+            border: 1px solid rgba(22,163,74,0.15);
+            border-radius: 8px;
+        }
+
+        /* --- Search & controls --- */
+        [data-theme="cortex"] .search-input {
+            background: #1f2937;
+            border: 1px solid rgba(22,163,74,0.2);
+            border-radius: 8px;
+        }
+
+        [data-theme="cortex"] .search-input:focus {
+            border-color: #16a34a;
+            box-shadow: 0 0 0 1px #16a34a;
         }
 
         [data-theme="cortex"] .btn-primary {
             background: #16a34a;
+            box-shadow: none;
+            border-radius: 8px;
         }
 
         [data-theme="cortex"] .btn-primary:hover {
             background: #15803d;
+            transform: none;
+            box-shadow: none;
+        }
+
+        [data-theme="cortex"] .btn-secondary,
+        [data-theme="cortex"] .btn-toggle {
+            background: #1f2937;
+            border: 1px solid rgba(22,163,74,0.2);
+            border-radius: 8px;
+        }
+
+        [data-theme="cortex"] .btn-secondary:hover,
+        [data-theme="cortex"] .btn-toggle:hover {
+            border-color: rgba(22,163,74,0.4);
+            background: #374151;
+            transform: none;
         }
 
         [data-theme="cortex"] .btn-toggle.active {
-            background: rgba(22,163,74,0.15);
-            border-color: #16a34a;
+            background: rgba(22,163,74,0.12);
+            border: 1px solid #16a34a;
             color: #4ade80;
         }
 
+        /* --- Endpoint groups: gray-800 cards, green left border --- */
+        [data-theme="cortex"] .endpoint-group {
+            background: #1f2937;
+            border: 1px solid rgba(22,163,74,0.15);
+            border-left: 3px solid #16a34a;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        [data-theme="cortex"] .endpoint-group:hover {
+            border-color: rgba(22,163,74,0.3);
+            border-left-color: #16a34a;
+            box-shadow: none;
+        }
+
+        [data-theme="cortex"] .endpoint-group.highlighted {
+            border: 1px solid rgba(22,163,74,0.3);
+            border-left: 3px solid #16a34a;
+            background: #1f2937;
+        }
+
+        [data-theme="cortex"] .endpoint-header {
+            background: #1f2937;
+        }
+
+        [data-theme="cortex"] .endpoint-header:hover {
+            background: #374151;
+        }
+
+        /* --- API call rows --- */
+        [data-theme="cortex"] .api-call {
+            background: #111827;
+            border-top: 1px solid rgba(22,163,74,0.1);
+        }
+
+        /* --- Response viewer --- */
+        [data-theme="cortex"] .response-viewer {
+            background: #0f172a;
+            border: 1px solid rgba(22,163,74,0.15);
+            border-radius: 8px;
+        }
+
+        [data-theme="cortex"] .response-body {
+            background: #0f172a;
+        }
+
+        [data-theme="cortex"] .json-key { color: #4ade80; }
+
+        /* --- Payload viewer --- */
+        [data-theme="cortex"] .payload-viewer {
+            background: #0f172a;
+            border-color: rgba(22,163,74,0.15);
+            border-radius: 8px;
+        }
+
+        /* --- Floating buttons: solid gray-800 --- */
         [data-theme="cortex"] .scroll-top-button,
         [data-theme="cortex"] .theme-button,
         [data-theme="cortex"] .about-button {
-            background: #111827;
+            background: #1f2937;
             border: 1px solid rgba(22,163,74,0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
 
         [data-theme="cortex"] .scroll-top-button:hover,
         [data-theme="cortex"] .theme-button:hover,
         [data-theme="cortex"] .about-button:hover {
+            background: #374151;
             border-color: #16a34a;
-            box-shadow: 0 4px 16px rgba(22,163,74,0.15);
+            transform: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
 
-        [data-theme="cortex"] .theme-modal,
-        [data-theme="cortex"] .about-modal {
-            background: #111827;
+        /* --- Modals: solid gray-800 --- */
+        [data-theme="cortex"] .about-modal,
+        [data-theme="cortex"] .theme-modal {
+            background: #1f2937;
             border: 1px solid rgba(22,163,74,0.2);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            border-radius: 8px;
         }
 
+        [data-theme="cortex"] .theme-option {
+            background: #111827;
+            border: 1px solid rgba(22,163,74,0.15);
+            border-radius: 8px;
+        }
+
+        [data-theme="cortex"] .theme-option:hover {
+            border-color: #16a34a;
+            transform: none;
+        }
+
+        [data-theme="cortex"] .theme-option.active {
+            border-color: #16a34a;
+            background: rgba(22,163,74,0.08);
+        }
+
+        /* --- About modal logo --- */
+        [data-theme="cortex"] .about-item strong {
+            color: #4ade80;
+        }
+
+        /* --- Cortex category chip --- */
         [data-theme="cortex"] .cortex-category {
             background: rgba(22,163,74,0.12);
             color: #4ade80;
             border-color: rgba(22,163,74,0.25);
         }
 
-        [data-theme="cortex"] .doc-link {
+        /* --- Doc link --- */
+        [data-theme="cortex"] .doc-link { color: #4ade80; }
+        [data-theme="cortex"] .doc-link:hover { color: #22c55e; }
+
+        /* --- cURL/payload buttons --- */
+        [data-theme="cortex"] .curl-btn,
+        [data-theme="cortex"] .payload-btn {
+            background: #1f2937;
+            border-color: rgba(22,163,74,0.2);
+            border-radius: 6px;
+        }
+
+        [data-theme="cortex"] .curl-btn:hover,
+        [data-theme="cortex"] .payload-btn:hover {
+            border-color: #16a34a;
+            background: #374151;
+        }
+
+        [data-theme="cortex"] .payload-btn.active {
+            background: rgba(22,163,74,0.12);
+            border-color: #16a34a;
             color: #4ade80;
         }
 
-        [data-theme="cortex"] .doc-link:hover {
-            color: #22c55e;
+        /* --- Highlight checkbox --- */
+        [data-theme="cortex"] #highlightToggle { accent-color: #16a34a; }
+
+        /* --- Search hit highlight --- */
+        [data-theme="cortex"] .search-hit {
+            background: rgba(22,163,74,0.25);
         }
 
-        [data-theme="cortex"] #highlightToggle {
-            accent-color: #16a34a;
+        [data-theme="cortex"] .highlight-pulse {
+            outline-color: #16a34a;
+        }
+
+        /* --- Badge hit --- */
+        [data-theme="cortex"] .badge-hit {
+            background: #16a34a;
+        }
+
+        /* --- Error modal --- */
+        [data-theme="cortex"] .error-modal {
+            background: #1f2937;
+            border-color: rgba(22,163,74,0.2);
+            border-radius: 8px;
+        }
+
+        /* --- Feedback modal --- */
+        [data-theme="cortex"] .feedback-modal {
+            background: #1f2937;
+            border-radius: 8px;
+        }
+
+        /* --- Doc modal --- */
+        [data-theme="cortex"] .doc-modal {
+            background: #1f2937;
+            border-radius: 8px;
+        }
+
+        [data-theme="cortex"] .doc-sidebar {
+            background: #111827;
+            border-color: rgba(22,163,74,0.15);
+        }
+
+        [data-theme="cortex"] .doc-tab-btn.active {
+            background: rgba(22,163,74,0.12);
+            color: #4ade80;
+            border-color: #16a34a;
+        }
+
+        /* --- Terminal/changelog modal --- */
+        [data-theme="cortex"] .terminal-modal {
+            border-color: #16a34a;
+            box-shadow: 0 0 20px rgba(22,163,74,0.3);
         }
 
         @media (max-width:768px) {
@@ -1755,7 +1941,12 @@
             [data-theme="cortex"] .header {
                 margin: calc(-1 * var(--space-md));
                 margin-bottom: 0;
-                padding: var(--space-sm) var(--space-md);
+                padding: 10px var(--space-md);
+                gap: var(--space-sm);
+            }
+
+            [data-theme="cortex"] h1 {
+                font-size: 1rem;
             }
 
             .stats-bar {
@@ -2094,7 +2285,7 @@
         </div>
     </div>
     <script>
-                    const THEMES = { darkpurple: { name: "Dark Purple", desc: "Default theme", bg: "#0a0c14", elevated: "#111318", card: "rgba(25,28,36,0.6)", cardhover: "rgba(35,38,46,0.7)", glassbg: "rgba(25,28,36,0.4)", glassborder: "rgba(255,255,255,0.08)", gradient: "linear-gradient(135deg,#667eea 0%,#764ba2 100%)", primary: "#e8eaf0", secondary: "#9ca3af", muted: "#6b7280", accent: "#a78bfa", bg1: "rgba(102,126,234,0.15)", bg2: "rgba(118,75,162,0.15)", bg3: "rgba(75,156,254,0.1)" }, light: { name: "Light Mode", desc: "Clean light theme", bg: "#f8f9fa", elevated: "#ffffff", card: "rgba(255,255,255,0.8)", cardhover: "rgba(245,247,250,0.9)", glassbg: "rgba(255,255,255,0.6)", glassborder: "rgba(0,0,0,0.08)", gradient: "linear-gradient(135deg,#667eea 0%,#764ba2 100%)", primary: "#1a202c", secondary: "#4a5568", muted: "#718096", accent: "#667eea", bg1: "rgba(102,126,234,0.08)", bg2: "rgba(118,75,162,0.08)", bg3: "rgba(75,156,254,0.05)" }, cyberpunk: { name: "Cyberpunk", desc: "Neon cyan & green", bg: "#0d1117", elevated: "#161b22", card: "rgba(13,27,42,0.6)", cardhover: "rgba(22,35,52,0.7)", glassbg: "rgba(13,27,42,0.4)", glassborder: "rgba(0,255,159,0.15)", gradient: "linear-gradient(135deg,#00ff9f 0%,#00b8ff 100%)", primary: "#e6edf3", secondary: "#7d8590", muted: "#6e7681", accent: "#00ff9f", bg1: "rgba(0,255,159,0.12)", bg2: "rgba(0,184,255,0.12)", bg3: "rgba(0,255,159,0.08)" }, sunset: { name: "Sunset", desc: "Warm orange & pink", bg: "#1a0e0a", elevated: "#231511", card: "rgba(35,21,17,0.6)", cardhover: "rgba(45,27,21,0.7)", glassbg: "rgba(26,14,10,0.4)", glassborder: "rgba(255,107,107,0.15)", gradient: "linear-gradient(135deg,#ff6b6b 0%,#feca57 100%)", primary: "#fff5f5", secondary: "#d4a574", muted: "#9c6644", accent: "#ff6b6b", bg1: "rgba(255,107,107,0.12)", bg2: "rgba(254,202,87,0.12)", bg3: "rgba(255,107,107,0.08)" }, forest: { name: "Forest", desc: "Natural green & teal", bg: "#0a1612", elevated: "#0f1e1a", card: "rgba(15,30,26,0.6)", cardhover: "rgba(18,35,30,0.7)", glassbg: "rgba(10,22,18,0.4)", glassborder: "rgba(56,239,125,0.15)", gradient: "linear-gradient(135deg,#38ef7d 0%,#11998e 100%)", primary: "#e8f5f1", secondary: "#81c9ba", muted: "#5a9a87", accent: "#38ef7d", bg1: "rgba(56,239,125,0.12)", bg2: "rgba(17,153,142,0.12)", bg3: "rgba(56,239,125,0.08)" }, panw: { name: "PANW Orange", desc: "Orange & black", bg: "#0d0d0d", elevated: "#1a1a1a", card: "rgba(35,35,35,0.9)", cardhover: "rgba(45,45,45,0.95)", glassbg: "rgba(20,20,20,0.8)", glassborder: "rgba(255,102,0,0.4)", gradient: "linear-gradient(135deg,#ff6600 0%,#ff8533 100%)", primary: "#ffffff", secondary: "#e5e5e5", muted: "#b0b0b0", accent: "#ff6600", bg1: "rgba(255,102,0,0.12)", bg2: "rgba(255,133,51,0.10)", bg3: "rgba(255,102,0,0.08)" }, prisma: { name: "Prisma Cloud", desc: "Airy sky blue", bg: "#f0f5ff", elevated: "#ffffff", card: "rgba(255,255,255,0.9)", cardhover: "rgba(245,250,255,0.95)", glassbg: "rgba(255,255,255,0.7)", glassborder: "rgba(80,130,247,0.2)", gradient: "linear-gradient(135deg,#5082f7 0%,#7ba3f8 100%)", primary: "#1a2332", secondary: "#4a5f7f", muted: "#7080a4", accent: "#5082f7", bg1: "rgba(80,130,247,0.06)", bg2: "rgba(123,163,248,0.05)", bg3: "rgba(80,130,247,0.04)" }, cortex: { name: "Cortex Cloud", desc: "Official Cortex design", bg: "#000000", elevated: "#111827", card: "rgba(17,24,39,0.8)", cardhover: "rgba(22,30,48,0.9)", glassbg: "rgba(17,24,39,0.5)", glassborder: "rgba(22,163,74,0.25)", gradient: "linear-gradient(135deg,#16a34a 0%,#15803d 100%)", primary: "#f0fdf4", secondary: "#9ca3af", muted: "#6b7280", accent: "#16a34a", bg1: "rgba(22,163,74,0.12)", bg2: "rgba(21,128,61,0.10)", bg3: "rgba(74,222,128,0.06)" } };
+                    const THEMES = { darkpurple: { name: "Dark Purple", desc: "Default theme", bg: "#0a0c14", elevated: "#111318", card: "rgba(25,28,36,0.6)", cardhover: "rgba(35,38,46,0.7)", glassbg: "rgba(25,28,36,0.4)", glassborder: "rgba(255,255,255,0.08)", gradient: "linear-gradient(135deg,#667eea 0%,#764ba2 100%)", primary: "#e8eaf0", secondary: "#9ca3af", muted: "#6b7280", accent: "#a78bfa", bg1: "rgba(102,126,234,0.15)", bg2: "rgba(118,75,162,0.15)", bg3: "rgba(75,156,254,0.1)" }, light: { name: "Light Mode", desc: "Clean light theme", bg: "#f8f9fa", elevated: "#ffffff", card: "rgba(255,255,255,0.8)", cardhover: "rgba(245,247,250,0.9)", glassbg: "rgba(255,255,255,0.6)", glassborder: "rgba(0,0,0,0.08)", gradient: "linear-gradient(135deg,#667eea 0%,#764ba2 100%)", primary: "#1a202c", secondary: "#4a5568", muted: "#718096", accent: "#667eea", bg1: "rgba(102,126,234,0.08)", bg2: "rgba(118,75,162,0.08)", bg3: "rgba(75,156,254,0.05)" }, cyberpunk: { name: "Cyberpunk", desc: "Neon cyan & green", bg: "#0d1117", elevated: "#161b22", card: "rgba(13,27,42,0.6)", cardhover: "rgba(22,35,52,0.7)", glassbg: "rgba(13,27,42,0.4)", glassborder: "rgba(0,255,159,0.15)", gradient: "linear-gradient(135deg,#00ff9f 0%,#00b8ff 100%)", primary: "#e6edf3", secondary: "#7d8590", muted: "#6e7681", accent: "#00ff9f", bg1: "rgba(0,255,159,0.12)", bg2: "rgba(0,184,255,0.12)", bg3: "rgba(0,255,159,0.08)" }, sunset: { name: "Sunset", desc: "Warm orange & pink", bg: "#1a0e0a", elevated: "#231511", card: "rgba(35,21,17,0.6)", cardhover: "rgba(45,27,21,0.7)", glassbg: "rgba(26,14,10,0.4)", glassborder: "rgba(255,107,107,0.15)", gradient: "linear-gradient(135deg,#ff6b6b 0%,#feca57 100%)", primary: "#fff5f5", secondary: "#d4a574", muted: "#9c6644", accent: "#ff6b6b", bg1: "rgba(255,107,107,0.12)", bg2: "rgba(254,202,87,0.12)", bg3: "rgba(255,107,107,0.08)" }, forest: { name: "Forest", desc: "Natural green & teal", bg: "#0a1612", elevated: "#0f1e1a", card: "rgba(15,30,26,0.6)", cardhover: "rgba(18,35,30,0.7)", glassbg: "rgba(10,22,18,0.4)", glassborder: "rgba(56,239,125,0.15)", gradient: "linear-gradient(135deg,#38ef7d 0%,#11998e 100%)", primary: "#e8f5f1", secondary: "#81c9ba", muted: "#5a9a87", accent: "#38ef7d", bg1: "rgba(56,239,125,0.12)", bg2: "rgba(17,153,142,0.12)", bg3: "rgba(56,239,125,0.08)" }, panw: { name: "PANW Orange", desc: "Orange & black", bg: "#0d0d0d", elevated: "#1a1a1a", card: "rgba(35,35,35,0.9)", cardhover: "rgba(45,45,45,0.95)", glassbg: "rgba(20,20,20,0.8)", glassborder: "rgba(255,102,0,0.4)", gradient: "linear-gradient(135deg,#ff6600 0%,#ff8533 100%)", primary: "#ffffff", secondary: "#e5e5e5", muted: "#b0b0b0", accent: "#ff6600", bg1: "rgba(255,102,0,0.12)", bg2: "rgba(255,133,51,0.10)", bg3: "rgba(255,102,0,0.08)" }, prisma: { name: "Prisma Cloud", desc: "Airy sky blue", bg: "#f0f5ff", elevated: "#ffffff", card: "rgba(255,255,255,0.9)", cardhover: "rgba(245,250,255,0.95)", glassbg: "rgba(255,255,255,0.7)", glassborder: "rgba(80,130,247,0.2)", gradient: "linear-gradient(135deg,#5082f7 0%,#7ba3f8 100%)", primary: "#1a2332", secondary: "#4a5f7f", muted: "#7080a4", accent: "#5082f7", bg1: "rgba(80,130,247,0.06)", bg2: "rgba(123,163,248,0.05)", bg3: "rgba(80,130,247,0.04)" }, cortex: { name: "Cortex Cloud", desc: "Official Cortex design", bg: "#111827", elevated: "#1f2937", card: "#1f2937", cardhover: "#374151", glassbg: "#1f2937", glassborder: "rgba(22,163,74,0.2)", gradient: "linear-gradient(135deg,#16a34a 0%,#15803d 100%)", primary: "#ffffff", secondary: "#9ca3af", muted: "#6b7280", accent: "#16a34a", bg1: "rgba(0,0,0,0)", bg2: "rgba(0,0,0,0)", bg3: "rgba(0,0,0,0)" } };
                     let harData = null, allEntries = [], filteredEntries = [], groupedEndpoints = {}, currentSearchTerm = '', viewMode = 'filtered', activeFilters = new Set(), currentTheme = 'darkpurple', highlightMatches = true;
                     const SLOW_REQUEST_THRESHOLD = 1500, ALLOWED_DOMAINS = ['prismacloud.io', 'paloaltonetworks.com'];
                     const FEEDBACK_FORM_URL = '';
