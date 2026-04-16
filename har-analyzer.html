@@ -108,8 +108,7 @@
         .header {
             text-align: center;
             padding: var(--space-xl) var(--space-xl) 0;
-            max-width: 1400px;
-            margin: 0 auto var(--space-2xl);
+            margin-bottom: var(--space-2xl);
         }
 
         .header-logo {
@@ -1574,15 +1573,12 @@
         [data-theme="cortex"] .header {
             text-align: left;
             background: #000000;
-            max-width: 100%;
-            width: 100%;
-            margin: 0 0 0 0;
+            margin-bottom: 0;
             padding: 14px var(--space-xl);
             display: flex;
             align-items: center;
             gap: var(--space-md);
             border-bottom: 2px solid #16a34a;
-            border-radius: 0;
         }
 
         [data-theme="cortex"] .header-logo {
@@ -1632,9 +1628,9 @@
             margin-top: 1px;
         }
 
-        /* --- Container: tighter top padding --- */
+        /* --- Container: proper top padding below header bar --- */
         [data-theme="cortex"] .container {
-            padding-top: var(--space-lg);
+            padding-top: var(--space-xl);
         }
 
         /* --- Stat cards: gray-800, green border --- */
