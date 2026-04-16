@@ -1550,6 +1550,199 @@
             word-break: break-all
         }
 
+        /* ===== Cortex Cloud theme structural overrides ===== */
+        [data-theme="cortex"] body::before {
+            opacity: 0.15;
+        }
+
+        [data-theme="cortex"] .header {
+            text-align: left;
+            background: #000000;
+            margin: calc(-1 * var(--space-xl));
+            margin-bottom: 0;
+            padding: var(--space-md) var(--space-xl);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            border-bottom: 2px solid #16a34a;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        [data-theme="cortex"] .header-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            margin-bottom: 0;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+
+        [data-theme="cortex"] .header-logo::before {
+            display: none;
+        }
+
+        [data-theme="cortex"] .header-logo svg {
+            width: 36px;
+            height: 36px;
+            filter: none;
+        }
+
+        [data-theme="cortex"] .header-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        [data-theme="cortex"] h1 {
+            background: none;
+            -webkit-background-clip: unset;
+            -webkit-text-fill-color: #ffffff;
+            background-clip: unset;
+            font-size: 1.25rem;
+            margin-bottom: 0;
+            letter-spacing: -0.01em;
+        }
+
+        [data-theme="cortex"] .header-subtitle {
+            color: #9ca3af;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+
+        [data-theme="cortex"] .stats-bar {
+            margin-top: var(--space-xl);
+        }
+
+        [data-theme="cortex"] .stat-card {
+            background: #111827;
+            border: 1px solid rgba(22,163,74,0.15);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+
+        [data-theme="cortex"] .stat-card:hover {
+            border-color: rgba(22,163,74,0.4);
+            box-shadow: 0 4px 24px rgba(22,163,74,0.08);
+        }
+
+        [data-theme="cortex"] .stat-card.active {
+            border: 2px solid #16a34a;
+            background: rgba(22,163,74,0.08);
+        }
+
+        [data-theme="cortex"] .upload-zone {
+            background: #111827;
+            border: 2px dashed rgba(22,163,74,0.3);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+
+        [data-theme="cortex"] .upload-zone:hover,
+        [data-theme="cortex"] .upload-zone.drag-over {
+            border-color: #16a34a;
+            background: rgba(22,163,74,0.06);
+        }
+
+        [data-theme="cortex"] .endpoint-group {
+            background: #111827;
+            border: 1px solid rgba(22,163,74,0.15);
+            border-left: 4px solid #16a34a;
+        }
+
+        [data-theme="cortex"] .endpoint-group:hover {
+            border-color: rgba(22,163,74,0.35);
+            border-left-color: #22c55e;
+        }
+
+        [data-theme="cortex"] .endpoint-group.highlighted {
+            border-left-color: #16a34a;
+        }
+
+        [data-theme="cortex"] .api-call {
+            background: rgba(17,24,39,0.6);
+            border: 1px solid rgba(22,163,74,0.1);
+        }
+
+        [data-theme="cortex"] .method-filter-btn {
+            background: #111827;
+            border-color: rgba(22,163,74,0.2);
+        }
+
+        [data-theme="cortex"] .method-filter-btn:hover {
+            border-color: #16a34a;
+        }
+
+        [data-theme="cortex"] .status-legend {
+            background: #111827;
+            border: 1px solid rgba(22,163,74,0.15);
+        }
+
+        [data-theme="cortex"] .controls .search-box {
+            background: #111827;
+            border-color: rgba(22,163,74,0.2);
+        }
+
+        [data-theme="cortex"] .controls .search-input:focus {
+            border-color: #16a34a;
+            box-shadow: 0 0 0 2px rgba(22,163,74,0.15);
+        }
+
+        [data-theme="cortex"] .btn-primary {
+            background: #16a34a;
+        }
+
+        [data-theme="cortex"] .btn-primary:hover {
+            background: #15803d;
+        }
+
+        [data-theme="cortex"] .btn-toggle.active {
+            background: rgba(22,163,74,0.15);
+            border-color: #16a34a;
+            color: #4ade80;
+        }
+
+        [data-theme="cortex"] .scroll-top-button,
+        [data-theme="cortex"] .theme-button,
+        [data-theme="cortex"] .about-button {
+            background: #111827;
+            border: 1px solid rgba(22,163,74,0.2);
+        }
+
+        [data-theme="cortex"] .scroll-top-button:hover,
+        [data-theme="cortex"] .theme-button:hover,
+        [data-theme="cortex"] .about-button:hover {
+            border-color: #16a34a;
+            box-shadow: 0 4px 16px rgba(22,163,74,0.15);
+        }
+
+        [data-theme="cortex"] .theme-modal,
+        [data-theme="cortex"] .about-modal {
+            background: #111827;
+            border: 1px solid rgba(22,163,74,0.2);
+        }
+
+        [data-theme="cortex"] .cortex-category {
+            background: rgba(22,163,74,0.12);
+            color: #4ade80;
+            border-color: rgba(22,163,74,0.25);
+        }
+
+        [data-theme="cortex"] .doc-link {
+            color: #4ade80;
+        }
+
+        [data-theme="cortex"] .doc-link:hover {
+            color: #22c55e;
+        }
+
+        [data-theme="cortex"] #highlightToggle {
+            accent-color: #16a34a;
+        }
+
         @media (max-width:768px) {
             .container {
                 padding: var(--space-md)
@@ -1557,6 +1750,12 @@
 
             h1 {
                 font-size: 2rem
+            }
+
+            [data-theme="cortex"] .header {
+                margin: calc(-1 * var(--space-md));
+                margin-bottom: 0;
+                padding: var(--space-sm) var(--space-md);
             }
 
             .stats-bar {
@@ -1639,8 +1838,10 @@
                     <path d="M50 5v18c14.91 0 27 12.09 27 27H50V5z" fill="#388E3C"/>
                 </svg>
             </div>
-            <h1>HAR Analyzer</h1>
-            <p class="header-subtitle">Cortex Cloud Support Tool</p>
+            <div class="header-text">
+                <h1>HAR Analyzer</h1>
+                <p class="header-subtitle">Cortex Cloud Support Tool</p>
+            </div>
         </header>
         <div class="stats-bar hidden" id="statsBar">
             <div class="stat-card" data-filter="all" id="statCardAll">
@@ -2019,7 +2220,7 @@
                         { version: '0.2.0a', changes: ['Basic HAR file parsing', 'Request/response display', 'Initial UI design'] },
                         { version: '0.1.0a', changes: ['Initial release', 'File upload support'] }
                     ];
-                    function applyTheme(t) { const th = THEMES[t]; if (!th) return; const r = document.documentElement.style; r.setProperty('--color-bg-main', th.bg); r.setProperty('--color-bg-elevated', th.elevated); r.setProperty('--color-bg-card', th.card); r.setProperty('--color-bg-card-hover', th.cardhover); r.setProperty('--glass-bg', th.glassbg); r.setProperty('--glass-border', th.glassborder); r.setProperty('--gradient-primary', th.gradient); r.setProperty('--color-text-primary', th.primary); r.setProperty('--color-text-secondary', th.secondary); r.setProperty('--color-text-muted', th.muted); r.setProperty('--color-text-accent', th.accent); r.setProperty('--bg-gradient-1', th.bg1); r.setProperty('--bg-gradient-2', th.bg2); r.setProperty('--bg-gradient-3', th.bg3); currentTheme = t; localStorage.setItem('harAnalyzerTheme', t); updateThemeOptions() }
+                    function applyTheme(t) { const th = THEMES[t]; if (!th) return; const r = document.documentElement.style; r.setProperty('--color-bg-main', th.bg); r.setProperty('--color-bg-elevated', th.elevated); r.setProperty('--color-bg-card', th.card); r.setProperty('--color-bg-card-hover', th.cardhover); r.setProperty('--glass-bg', th.glassbg); r.setProperty('--glass-border', th.glassborder); r.setProperty('--gradient-primary', th.gradient); r.setProperty('--color-text-primary', th.primary); r.setProperty('--color-text-secondary', th.secondary); r.setProperty('--color-text-muted', th.muted); r.setProperty('--color-text-accent', th.accent); r.setProperty('--bg-gradient-1', th.bg1); r.setProperty('--bg-gradient-2', th.bg2); r.setProperty('--bg-gradient-3', th.bg3); document.documentElement.dataset.theme = t; currentTheme = t; localStorage.setItem('harAnalyzerTheme', t); updateThemeOptions() }
                     function updateThemeOptions() { const c = document.getElementById('themeOptions'); const themes = [{ id: 'darkpurple', grad: 'linear-gradient(135deg,#667eea 0%,#764ba2 100%)' }, { id: 'light', grad: 'linear-gradient(135deg,#667eea 0%,#764ba2 100%)' }, { id: 'cyberpunk', grad: 'linear-gradient(135deg,#00ff9f 0%,#00b8ff 100%)' }, { id: 'sunset', grad: 'linear-gradient(135deg,#ff6b6b 0%,#feca57 100%)' }, { id: 'forest', grad: 'linear-gradient(135deg,#38ef7d 0%,#11998e 100%)' }, { id: 'panw', grad: 'linear-gradient(135deg,#ff6600 0%,#ff8533 100%)' }, { id: 'prisma', grad: 'linear-gradient(135deg,#5082f7 0%,#7ba3f8 100%)' }, { id: 'cortex', grad: 'linear-gradient(135deg,#16a34a 0%,#15803d 100%)' }]; c.innerHTML = themes.map(({ id, grad }) => `<div class="theme-option ${currentTheme === id ? 'active' : ''}" data-theme="${id}"><div class="theme-preview" style="background:${grad};"></div><div class="theme-info"><div class="theme-name">${THEMES[id].name}</div><div class="theme-description">${THEMES[id].desc}</div></div></div>`).join(''); c.querySelectorAll('.theme-option').forEach(opt => { opt.addEventListener('click', (e) => { e.stopPropagation(); applyTheme(opt.dataset.theme) }) }) }
                     function isNoise(e) { const u = e.request.url.toLowerCase(), m = e.response.content.mimeType || ''; if (NOISE_PATTERNS.extensions.some(x => u.includes(x))) return true; if (NOISE_PATTERNS.mimeTypes.some(t => m.includes(t))) return true; if (NOISE_PATTERNS.urlPatterns.some(p => p.test(u))) return true; return false }
                     function isDataAPI(e) { const m = e.response.content.mimeType || '', u = e.request.url, s = e.response.status; if (s >= 400 && s < 600) return true; if (!m.includes('json')) return false; const a = ALLOWED_DOMAINS.some(d => u.includes(d)); if (a) { const h = e.response.content.text && e.response.content.text.trim().length > 0; const b = e.response.bodySize && e.response.bodySize > 0; if (!h && !b) return true; return s >= 200 && s < 600 } return e.time >= SLOW_REQUEST_THRESHOLD }
