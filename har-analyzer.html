@@ -2122,11 +2122,12 @@
             background: transparent; border: none;
             box-shadow: none; backdrop-filter: none;
             -webkit-backdrop-filter: none;
+            overflow: visible;
         }
 
         [data-theme="panw"] .header-logo::before { display: none; }
         [data-theme="panw"] .header-logo:hover { transform: none; box-shadow: none; }
-        [data-theme="panw"] .header-logo img { height: 32px; width: auto; filter: none; display: block; }
+        [data-theme="panw"] .header-logo img.logo-panw { height: 32px; width: auto; filter: none; }
         [data-theme="panw"] .header-text { display: flex; flex-direction: column; }
 
         [data-theme="panw"] h1 {
