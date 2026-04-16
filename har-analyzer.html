@@ -111,6 +111,44 @@
             padding: var(--space-xl) 0
         }
 
+        .header-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            margin-bottom: var(--space-lg);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.05);
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-logo::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .header-logo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+
+        .header-logo svg {
+            width: 48px;
+            height: 48px;
+            filter: drop-shadow(0 2px 8px rgba(22,163,74,0.3));
+        }
+
         .header-subtitle {
             color: var(--color-text-secondary);
             font-size: 1.125rem;
@@ -1594,8 +1632,15 @@
 <body>
     <div class="container">
         <header class="header">
-            <h1>🔍 HAR Analyzer</h1>
-            <p class="header-subtitle">Cloud Support Tool</p>
+            <div class="header-logo">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 5C25.15 5 5 25.15 5 50c0 24.85 20.15 45 45 45v-18c-14.91 0-27-12.09-27-27s12.09-27 27-27V5z" fill="#4CAF50"/>
+                    <circle cx="50" cy="50" r="22" fill="#4CAF50"/>
+                    <path d="M50 5v18c14.91 0 27 12.09 27 27H50V5z" fill="#388E3C"/>
+                </svg>
+            </div>
+            <h1>HAR Analyzer</h1>
+            <p class="header-subtitle">Cortex Cloud Support Tool</p>
         </header>
         <div class="stats-bar hidden" id="statsBar">
             <div class="stat-card" data-filter="all" id="statCardAll">
