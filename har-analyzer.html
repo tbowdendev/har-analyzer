@@ -1215,6 +1215,95 @@
             line-height: 1.5
         }
 
+        .roadmap-group {
+            margin-bottom: var(--space-xl)
+        }
+
+        .roadmap-group-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--space-md)
+        }
+
+        .roadmap-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md)
+        }
+
+        .roadmap-item {
+            display: flex;
+            gap: var(--space-lg);
+            align-items: flex-start;
+            padding: var(--space-lg);
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--glass-border);
+            border-left: 3px solid var(--color-text-accent);
+            border-radius: var(--radius-lg)
+        }
+
+        .roadmap-body {
+            flex: 1;
+            min-width: 0
+        }
+
+        .roadmap-title {
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-xs)
+        }
+
+        .roadmap-desc {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5
+        }
+
+        .roadmap-status {
+            flex-shrink: 0;
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-family: var(--font-mono);
+            white-space: nowrap
+        }
+
+        .roadmap-status.planned {
+            background: rgba(107, 114, 128, 0.15);
+            color: #9ca3af;
+            border: 1px solid rgba(107, 114, 128, 0.35)
+        }
+
+        .roadmap-status.in-progress {
+            background: rgba(245, 158, 11, 0.12);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.35)
+        }
+
+        .roadmap-status.shipped {
+            background: rgba(22, 163, 74, 0.12);
+            color: #4ade80;
+            border: 1px solid rgba(22, 163, 74, 0.35)
+        }
+
+        .roadmap-item[data-status="planned"] {
+            border-left-color: #6b7280
+        }
+
+        .roadmap-item[data-status="in-progress"] {
+            border-left-color: #f59e0b
+        }
+
+        .roadmap-item[data-status="shipped"] {
+            border-left-color: #16a34a
+        }
+
         /* Error Modal */
         .error-backdrop {
             display: none;
@@ -2451,6 +2540,7 @@
             <div class="doc-sidebar">
                 <button class="doc-tab-btn active" onclick="switchDocTab('status')">Status Codes</button>
                 <button class="doc-tab-btn" onclick="switchDocTab('features')">Features</button>
+                <button class="doc-tab-btn" onclick="switchDocTab('roadmap')">Roadmap</button>
             </div>
             <div class="doc-content-area">
                 <div id="tab-status" class="doc-tab-content active">
@@ -2561,6 +2651,12 @@
                                 <div class="doc-feature-desc">Similar API calls are grouped together (e.g., /api/v1/users/{id}) to reduce clutter and show aggregate stats.</div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div id="tab-roadmap" class="doc-tab-content">
+                    <div class="doc-section">
+                        <div class="doc-section-title">Roadmap</div>
+                        <div id="roadmapContent"></div>
                     </div>
                 </div>
             </div>
@@ -2731,7 +2827,18 @@ function updateStats() { const e = viewMode === 'filtered' ? filteredEntries : a
                     function clearData() { harData = null; allEntries = []; filteredEntries = []; groupedEndpoints = {}; currentSearchTerm = ''; viewMode = 'filtered'; activeFilters.clear(); document.getElementById('statsBar').classList.add('hidden'); document.getElementById('controls').classList.add('hidden'); document.getElementById('methodFilters').classList.add('hidden'); document.getElementById('statusLegend').classList.add('hidden'); document.getElementById('uploadZone').classList.remove('hidden'); document.getElementById('results').innerHTML = ''; document.getElementById('searchInput').value = ''; document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('active')); document.querySelectorAll('.method-filter-btn').forEach(b => b.classList.remove('active')); document.querySelectorAll('.legend-item[data-legend-filter]').forEach(b => b.classList.remove('active')); const b = document.getElementById('viewModeBtn'); b.innerHTML = '🔍 Filtered View'; b.classList.add('active') }
                     function toggleFloatingButtons(hide) { const btns = [document.getElementById('scrollTopBtn'), document.getElementById('themeBtn')]; btns.forEach(b => { if (b) b.style.display = hide ? 'none' : '' }) }
                     function switchDocTab(t) { document.querySelectorAll('.doc-tab-btn').forEach(b => b.classList.remove('active')); document.querySelectorAll('.doc-tab-content').forEach(c => c.classList.remove('active')); document.querySelector(`button[onclick="switchDocTab('${t}')"]`).classList.add('active'); document.getElementById(`tab-${t}`).classList.add('active') }
-                    document.addEventListener('DOMContentLoaded', function () { const savedTheme = localStorage.getItem('harAnalyzerTheme'); applyTheme(THEMES[savedTheme] ? savedTheme : 'cortex'); const uz = document.getElementById('uploadZone'), fi = document.getElementById('fileInput'); uz.addEventListener('click', () => fi.click()); fi.addEventListener('change', e => { if (e.target.files[0]) processHARFile(e.target.files[0]) }); uz.addEventListener('dragover', e => { e.preventDefault(); uz.classList.add('drag-over') }); uz.addEventListener('dragleave', () => uz.classList.remove('drag-over')); uz.addEventListener('drop', e => { e.preventDefault(); uz.classList.remove('drag-over'); const f = e.dataTransfer.files[0]; if (f && f.name.endsWith('.har')) processHARFile(f); else showError('Please drop a valid .har file — the file must have a .har extension.') }); document.getElementById('searchInput').addEventListener('input', e => handleSearch(e.target.value)); const ht = document.getElementById('highlightToggle'); if (ht) { ht.addEventListener('change', e => { highlightMatches = e.target.checked; renderResults() }) } document.getElementById('viewModeBtn').addEventListener('click', toggleViewMode); document.getElementById('exportBtn').addEventListener('click', exportSummary); document.getElementById('clearBtn').addEventListener('click', clearData); document.getElementById('statCardAll').addEventListener('click', () => { activeFilters.clear(); document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('active')); document.querySelectorAll('.method-filter-btn').forEach(b => b.classList.remove('active')); document.querySelectorAll('.legend-item[data-legend-filter]').forEach(b => b.classList.remove('active')); document.getElementById('statCardAll').classList.add('active'); renderResults() }); document.getElementById('statCardErrors').addEventListener('click', () => { if (activeFilters.has('errors')) { activeFilters.delete('errors'); document.getElementById('statCardErrors').classList.remove('active') } else { activeFilters.add('errors'); document.getElementById('statCardErrors').classList.add('active'); document.getElementById('statCardAll').classList.remove('active') } if (activeFilters.size === 0) document.getElementById('statCardAll').classList.add('active'); renderResults() }); document.getElementById('statCardSlow').addEventListener('click', () => { if (activeFilters.has('slow')) { activeFilters.delete('slow'); document.getElementById('statCardSlow').classList.remove('active') } else { activeFilters.add('slow'); document.getElementById('statCardSlow').classList.add('active'); document.getElementById('statCardAll').classList.remove('active') } if (activeFilters.size === 0) document.getElementById('statCardAll').classList.add('active'); renderResults() }); const thb = document.getElementById('themeBtn'), thm = document.getElementById('themeModal'); thb.addEventListener('click', e => { e.stopPropagation(); thm.classList.toggle('active'); toggleFloatingButtons(thm.classList.contains('active')) }); const abb = document.getElementById('aboutBtn'), abm = document.getElementById('aboutModal'); abb.addEventListener('click', e => { e.stopPropagation(); abm.classList.toggle('active'); toggleFloatingButtons(abm.classList.contains('active')) }); const docb = document.getElementById('docBtn'), docm = document.getElementById('docModal'), docc = document.getElementById('docCloseBtn'); docb.addEventListener('click', e => { e.stopPropagation(); docm.classList.add('active'); abm.classList.remove('active'); toggleFloatingButtons(true) }); docc.addEventListener('click', () => { docm.classList.remove('active'); toggleFloatingButtons(false) }); document.addEventListener('click', e => { if (!abm.contains(e.target) && !abb.contains(e.target)) { if (abm.classList.contains('active')) toggleFloatingButtons(false); abm.classList.remove('active') } if (!thm.contains(e.target) && !thb.contains(e.target)) { if (thm.classList.contains('active')) toggleFloatingButtons(false); thm.classList.remove('active') } if (!docm.contains(e.target) && !docb.contains(e.target)) { if (docm.classList.contains('active')) toggleFloatingButtons(false); docm.classList.remove('active') } }); document.getElementById('changelogBtn').addEventListener('click', e => { e.stopPropagation(); document.getElementById('terminalContent').innerHTML = renderChangelog(); document.getElementById('terminalBackdrop').classList.add('active') }); const tbb = document.getElementById('terminalBackdrop'), tbm = document.getElementById('terminalModal'); document.getElementById('terminalCloseBtn').addEventListener('click', () => tbb.classList.remove('active')); tbb.addEventListener('click', e => { if (e.target === tbb) tbb.classList.remove('active') }); tbm.addEventListener('click', e => e.stopPropagation()); document.addEventListener('keydown', e => { if (e.key === 'Escape') { tbb.classList.remove('active'); docm.classList.remove('active'); document.getElementById('errorBackdrop').classList.remove('active'); document.getElementById('feedbackBackdrop').classList.remove('active'); toggleFloatingButtons(false) } }); /* Error modal retry */ document.getElementById('errorRetryBtn').addEventListener('click', () => { document.getElementById('errorBackdrop').classList.remove('active') }); const errBd = document.getElementById('errorBackdrop'); errBd.addEventListener('click', e => { if (e.target === errBd) errBd.classList.remove('active') }); /* Method filter buttons */ document.querySelectorAll('.method-filter-btn').forEach(btn => { btn.addEventListener('click', () => { const mKey = 'method-' + btn.dataset.method; if (activeFilters.has(mKey)) { activeFilters.delete(mKey); btn.classList.remove('active') } else { activeFilters.add(mKey); btn.classList.add('active') } renderResults() }) }); /* Legend filter items */ document.querySelectorAll('.legend-item[data-legend-filter]').forEach(item => { item.addEventListener('click', () => { const lKey = item.dataset.legendFilter; if (activeFilters.has(lKey)) { activeFilters.delete(lKey); item.classList.remove('active') } else { activeFilters.add(lKey); item.classList.add('active'); document.getElementById('statCardAll').classList.remove('active') } if (activeFilters.size === 0) document.getElementById('statCardAll').classList.add('active'); renderResults() }) }); /* Feedback modal */ const fbBtn = document.getElementById('feedbackBtn'); const fbBd = document.getElementById('feedbackBackdrop'); if (fbBtn) { fbBtn.addEventListener('click', e => { e.stopPropagation(); abm.classList.remove('active'); if (FEEDBACK_FORM_URL) document.getElementById('feedbackIframe').src = FEEDBACK_FORM_URL; fbBd.classList.add('active') }) } document.getElementById('feedbackCloseBtn').addEventListener('click', () => fbBd.classList.remove('active')); fbBd.addEventListener('click', e => { if (e.target === fbBd) fbBd.classList.remove('active') }); const stb = document.getElementById('scrollTopBtn'); window.addEventListener('scroll', () => stb.classList.toggle('visible', window.pageYOffset > 300)); stb.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' })) });
+                    const ROADMAP = [
+                        { group: 'Coverage', items: [
+                            { title: 'Cortex Cloud modules', desc: 'Additional endpoint mapping for XSIAM, XDR, and CAS. Built from real HAR traffic as new samples come in.', status: 'in-progress' },
+                            { title: 'Prisma Cloud modules', desc: 'Deeper endpoint mapping for DSPM, CAS, and CWP. Fleshing out coverage beyond the core CSPM surface.', status: 'in-progress' },
+                            { title: 'Extended API documentation links', desc: 'Direct pan.dev links for endpoint categories beyond CSPM (CWP, CIEM, Code Security, and more).', status: 'planned' },
+                        ] },
+                        { group: 'Features', items: [
+                            { title: 'Custom branding support', desc: 'Swap in company-provided logos and accent colors without editing the HTML directly.', status: 'planned' },
+                        ] },
+                    ];
+                    function renderRoadmap() { const host = document.getElementById('roadmapContent'); if (!host) return; const labels = { planned: 'Planned', 'in-progress': 'In Progress', shipped: 'Shipped' }; const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]); host.innerHTML = ROADMAP.map(g => `<div class="roadmap-group"><div class="roadmap-group-title">${esc(g.group)}</div><div class="roadmap-list">${g.items.map(i => `<div class="roadmap-item" data-status="${esc(i.status)}"><div class="roadmap-body"><div class="roadmap-title">${esc(i.title)}</div><div class="roadmap-desc">${esc(i.desc)}</div></div><span class="roadmap-status ${esc(i.status)}">${esc(labels[i.status] || i.status)}</span></div>`).join('')}</div></div>`).join('') }
+                    document.addEventListener('DOMContentLoaded', function () { const savedTheme = localStorage.getItem('harAnalyzerTheme'); applyTheme(THEMES[savedTheme] ? savedTheme : 'cortex'); renderRoadmap(); const uz = document.getElementById('uploadZone'), fi = document.getElementById('fileInput'); uz.addEventListener('click', () => fi.click()); fi.addEventListener('change', e => { if (e.target.files[0]) processHARFile(e.target.files[0]) }); uz.addEventListener('dragover', e => { e.preventDefault(); uz.classList.add('drag-over') }); uz.addEventListener('dragleave', () => uz.classList.remove('drag-over')); uz.addEventListener('drop', e => { e.preventDefault(); uz.classList.remove('drag-over'); const f = e.dataTransfer.files[0]; if (f && f.name.endsWith('.har')) processHARFile(f); else showError('Please drop a valid .har file — the file must have a .har extension.') }); document.getElementById('searchInput').addEventListener('input', e => handleSearch(e.target.value)); const ht = document.getElementById('highlightToggle'); if (ht) { ht.addEventListener('change', e => { highlightMatches = e.target.checked; renderResults() }) } document.getElementById('viewModeBtn').addEventListener('click', toggleViewMode); document.getElementById('exportBtn').addEventListener('click', exportSummary); document.getElementById('clearBtn').addEventListener('click', clearData); document.getElementById('statCardAll').addEventListener('click', () => { activeFilters.clear(); document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('active')); document.querySelectorAll('.method-filter-btn').forEach(b => b.classList.remove('active')); document.querySelectorAll('.legend-item[data-legend-filter]').forEach(b => b.classList.remove('active')); document.getElementById('statCardAll').classList.add('active'); renderResults() }); document.getElementById('statCardErrors').addEventListener('click', () => { if (activeFilters.has('errors')) { activeFilters.delete('errors'); document.getElementById('statCardErrors').classList.remove('active') } else { activeFilters.add('errors'); document.getElementById('statCardErrors').classList.add('active'); document.getElementById('statCardAll').classList.remove('active') } if (activeFilters.size === 0) document.getElementById('statCardAll').classList.add('active'); renderResults() }); document.getElementById('statCardSlow').addEventListener('click', () => { if (activeFilters.has('slow')) { activeFilters.delete('slow'); document.getElementById('statCardSlow').classList.remove('active') } else { activeFilters.add('slow'); document.getElementById('statCardSlow').classList.add('active'); document.getElementById('statCardAll').classList.remove('active') } if (activeFilters.size === 0) document.getElementById('statCardAll').classList.add('active'); renderResults() }); const thb = document.getElementById('themeBtn'), thm = document.getElementById('themeModal'); thb.addEventListener('click', e => { e.stopPropagation(); thm.classList.toggle('active'); toggleFloatingButtons(thm.classList.contains('active')) }); const abb = document.getElementById('aboutBtn'), abm = document.getElementById('aboutModal'); abb.addEventListener('click', e => { e.stopPropagation(); abm.classList.toggle('active'); toggleFloatingButtons(abm.classList.contains('active')) }); const docb = document.getElementById('docBtn'), docm = document.getElementById('docModal'), docc = document.getElementById('docCloseBtn'); docb.addEventListener('click', e => { e.stopPropagation(); docm.classList.add('active'); abm.classList.remove('active'); toggleFloatingButtons(true) }); docc.addEventListener('click', () => { docm.classList.remove('active'); toggleFloatingButtons(false) }); document.addEventListener('click', e => { if (!abm.contains(e.target) && !abb.contains(e.target)) { if (abm.classList.contains('active')) toggleFloatingButtons(false); abm.classList.remove('active') } if (!thm.contains(e.target) && !thb.contains(e.target)) { if (thm.classList.contains('active')) toggleFloatingButtons(false); thm.classList.remove('active') } if (!docm.contains(e.target) && !docb.contains(e.target)) { if (docm.classList.contains('active')) toggleFloatingButtons(false); docm.classList.remove('active') } }); document.getElementById('changelogBtn').addEventListener('click', e => { e.stopPropagation(); document.getElementById('terminalContent').innerHTML = renderChangelog(); document.getElementById('terminalBackdrop').classList.add('active') }); const tbb = document.getElementById('terminalBackdrop'), tbm = document.getElementById('terminalModal'); document.getElementById('terminalCloseBtn').addEventListener('click', () => tbb.classList.remove('active')); tbb.addEventListener('click', e => { if (e.target === tbb) tbb.classList.remove('active') }); tbm.addEventListener('click', e => e.stopPropagation()); document.addEventListener('keydown', e => { if (e.key === 'Escape') { tbb.classList.remove('active'); docm.classList.remove('active'); document.getElementById('errorBackdrop').classList.remove('active'); document.getElementById('feedbackBackdrop').classList.remove('active'); toggleFloatingButtons(false) } }); /* Error modal retry */ document.getElementById('errorRetryBtn').addEventListener('click', () => { document.getElementById('errorBackdrop').classList.remove('active') }); const errBd = document.getElementById('errorBackdrop'); errBd.addEventListener('click', e => { if (e.target === errBd) errBd.classList.remove('active') }); /* Method filter buttons */ document.querySelectorAll('.method-filter-btn').forEach(btn => { btn.addEventListener('click', () => { const mKey = 'method-' + btn.dataset.method; if (activeFilters.has(mKey)) { activeFilters.delete(mKey); btn.classList.remove('active') } else { activeFilters.add(mKey); btn.classList.add('active') } renderResults() }) }); /* Legend filter items */ document.querySelectorAll('.legend-item[data-legend-filter]').forEach(item => { item.addEventListener('click', () => { const lKey = item.dataset.legendFilter; if (activeFilters.has(lKey)) { activeFilters.delete(lKey); item.classList.remove('active') } else { activeFilters.add(lKey); item.classList.add('active'); document.getElementById('statCardAll').classList.remove('active') } if (activeFilters.size === 0) document.getElementById('statCardAll').classList.add('active'); renderResults() }) }); /* Feedback modal */ const fbBtn = document.getElementById('feedbackBtn'); const fbBd = document.getElementById('feedbackBackdrop'); if (fbBtn) { fbBtn.addEventListener('click', e => { e.stopPropagation(); abm.classList.remove('active'); if (FEEDBACK_FORM_URL) document.getElementById('feedbackIframe').src = FEEDBACK_FORM_URL; fbBd.classList.add('active') }) } document.getElementById('feedbackCloseBtn').addEventListener('click', () => fbBd.classList.remove('active')); fbBd.addEventListener('click', e => { if (e.target === fbBd) fbBd.classList.remove('active') }); const stb = document.getElementById('scrollTopBtn'); window.addEventListener('scroll', () => stb.classList.toggle('visible', window.pageYOffset > 300)); stb.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' })) });
                     window.toggleEndpoint = toggleEndpoint; window.copyResponse = copyResponse; window.switchDocTab = switchDocTab; window.copyCurl = copyCurl; window.togglePayload = togglePayload;
                 </script>
 </body>
