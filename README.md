@@ -1,61 +1,80 @@
-A self-contained HAR inspection tool built for Palo Alto Networks traffic. Drop a `.har` file and explore API calls, responses, and performance signals — no backend, no install, no data leaves your browser.
+# 🔍 HAR Analyzer
 
-## Supported Platforms
+> A self-contained HAR inspection tool built for Palo Alto Networks traffic. Drop a `.har` file and explore API calls, responses, and performance signals — **no backend, no install, no data leaves your browser.**
 
-### Cortex Cloud (`*.paloaltonetworks.com`)
-CSPM is fully supported. Additional modules (XSIAM, XDR, CAS, CWP, CIEM, and more) are in progress.
+![HTML](https://img.shields.io/badge/HTML-Single%20File-orange?logo=html5&logoColor=white)
+![Platform](https://img.shields.io/badge/platform-Browser-brightgreen?logo=googlechrome&logoColor=white)
+![No Install](https://img.shields.io/badge/install-none%20required-success)
+![Offline](https://img.shields.io/badge/offline-fully%20supported-blue)
+![PANW](https://img.shields.io/badge/Palo%20Alto%20Networks-Support%20Tool-FF6600?logo=paloaltosoftware&logoColor=white)
 
-### Prisma Cloud (`*.prismacloud.io`)
-All Prisma Cloud modules are supported. DSPM, CAS, and CWP coverage is partial — endpoint mapping continues to expand with real HAR traffic.
+---
 
-## Features
+## 🌐 Supported Platforms
 
-**Core**
+| Platform | Domain | Coverage |
+|---|---|---|
+| **Cortex Cloud** | `*.paloaltonetworks.com` | CSPM fully supported. XSIAM, XDR, CAS, CWP, CIEM in progress. |
+| **Prisma Cloud** | `*.prismacloud.io` | All core modules supported. DSPM, CAS, and CWP coverage expanding. |
+
+---
+
+## ✨ Features
+
+**📂 Core**
 - Drag-and-drop or browse to load HAR files — all processing stays in the browser
-- Smart filtering: static assets, fonts, browser extensions, and Cortex background noise (notification polling, session sync, CSP reports) hidden by default
+- Smart filtering: static assets, fonts, browser extensions, and Cortex background noise hidden by default
 - Toggle **Full HAR View** to see every request in the file
 - Endpoint grouping with lazy-rendered call details
 - UUID/ID normalisation groups parametrised routes together
 
-**Inspection**
-- Per-call product-area label chip (e.g. "XQL Query", "CIEM", "Cloud Workload Protection")
-- Direct link to the pan.dev API reference page for each recognized CSPM endpoint
+**🔬 Inspection**
+- Per-call product-area label chip (e.g. `XQL Query`, `CIEM`, `Cloud Workload Protection`)
+- Direct link to the [pan.dev](https://pan.dev) API reference page for each recognized CSPM endpoint
 - Response body viewer with JSON syntax highlighting and copy-to-clipboard
 - Payload viewer for request bodies
 - Copy request as **cURL** command
-- Status code badges with hover tooltips (human-readable descriptions)
+- Status code badges with hover tooltips
 - Slow request detection (>1500 ms), error highlighting (4xx/5xx)
 
-**Filtering & Search**
+**🔎 Filtering & Search**
 - HTTP method filter bar (GET / POST / PUT / PATCH / DELETE)
 - Full-text search across URLs and response bodies
 - Clickable stat cards to filter by errors or slow requests
 - Legend filter bar for badge-based filtering
 
-**Export & UI**
+**🎨 Export & UI**
 - Markdown summary export
-- 7 themes with persisted preference (Dark Purple, Light, Cyberpunk, Sunset, Forest, PANW Orange, Prisma Cloud)
-- About, Documentation (Status Codes / Features), and retro Changelog modals
+- 3 themes with persisted preference — Cortex Cloud, Prisma Cloud, PANW Orange
+- Theme-matched favicon and header logo that swap automatically
+- About, Documentation (Status Codes / Features / Roadmap), and retro Changelog modals
 - Floating utility buttons (scroll-to-top, theme picker, about)
 
-## Usage
+---
+
+## 🚀 Usage
 
 1. Open `har-analyzer.html` in any modern browser (double-click or drag into a tab)
 2. Drop a `.har` file or click the upload zone
 3. Use the stat cards, method filters, and search to narrow results
-4. Click an endpoint group to expand individual calls; expand a call for full request/response detail
+4. Click an endpoint group to expand individual calls; expand a call for full detail
 5. Use the product-area chip to identify which Cortex/Prisma module each call belongs to
 6. Export a Markdown summary or copy individual calls as cURL
 
-## Upcoming
+---
 
-- Expand Cortex Cloud module coverage — additional endpoint mapping for XSIAM, XDR, and CAS
-- Expand Prisma Cloud coverage — deeper endpoint mapping for DSPM, CAS, and CWP modules
-- Extend API documentation links to cover additional endpoint categories beyond CSPM
-- Custom branding support — allow swapping in company-provided logos and accent colors
+## 🗺️ Roadmap
 
-## Notes
+| Priority | Item | Status |
+|---|---|---|
+| 1 | Prisma Cloud endpoint coverage — DSPM, CAS, CWP | 🔄 In Progress |
+| 2 | Cortex Cloud endpoint coverage — XSIAM, XDR, CAS | 🔄 In Progress |
+| 3 | Extended API documentation links beyond CSPM | 📋 Planned |
 
-- Runs fully offline — no network calls, no telemetry
-- Works best on up-to-date Chrome, Edge, Firefox, or Safari
-- Category mapping built from 166 normalised endpoint patterns across 14 real HAR files
+---
+
+## 📝 Notes
+
+- ✅ Runs fully offline — no network calls, no telemetry
+- ✅ Works best on up-to-date Chrome, Edge, Firefox, or Safari
+- ✅ Category mapping built from **166 normalised endpoint patterns** across **14 real HAR files**
