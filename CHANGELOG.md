@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here. The app is a single-file HTML utility, so version bumps are tied to UI/UX fixes and feature polish.
 
+## 1.4
+- **Request and Response headers** are now displayed inline on every API call card. Collapsible sections (collapsed by default) reveal a name/value table for each. Trace-ID-style headers (`x-trace-id`, `x-request-id`, `x-correlation-id`, `x-amzn-requestid`, `cf-ray`, etc.) are visually highlighted so they're easy to spot.
+- **Sequential layout mode.** New toggle in the controls bar — 📚 Grouped ↔ ⏱ Sequential. Sequential view sorts entries by `startedDateTime` and renders them as a flat chronological list. Honors all existing filters (errors, slow, method, search). Caps at 500 entries with a "refine filters to see more" banner for very large HARs.
+- **Explicit start timestamps** on every API call card. Local time formatted as `HH:MM:SS.mmm` next to the existing duration. Hover the timestamp to see the full ISO string for paste into log tools.
+- **Clipboard buttons fixed for HTTP deployments.** Copy cURL, Copy JSON, and Export Summary previously silently failed when the tool was hosted on plain HTTP, because the modern Clipboard API only works in secure contexts. Added a `document.execCommand('copy')` fallback so they work everywhere.
+
 ## 1.3
 - **Cortex Cloud theme:** black header bar with a 2px green bottom border, green-600 accent, flat slate surfaces, no glass morphism, no animated gradient background.
 - **Prisma Cloud theme:** black header bar with a 2px cyan bottom border, cyan-600 accent, flat slate surfaces, Prisma Cloud branding.
