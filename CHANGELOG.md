@@ -2,6 +2,25 @@
 
 All notable changes to this project are documented here. The app is a single-file HTML utility, so version bumps are tied to UI/UX fixes and feature polish.
 
+## 1.4.5
+- **Security: response bodies, request URLs, and `mimeType` strings are now HTML-escaped** before rendering. Previously, a HAR file that contained `<script>` or attribute-breakout HTML in any of those fields could execute when the corresponding endpoint group was expanded, breaking the "no data leaves the browser" guarantee.
+- **Search now matches literal text** instead of treating dots, slashes, and other regex metacharacters as wildcards. The `escapeRegExp` helper was double-escaping its replacement string, so searches containing `.`, `/`, `?`, `(`, etc. silently returned zero hits.
+- **Endpoint groups with many calls no longer clip.** Expanded groups grow to fit their full content via JS-managed `max-height`; the previous CSS cap of `10000px` with `overflow: hidden` made every call past ~12 unreachable in 1.4 (cards got taller in 1.4, the cap got hit faster).
+- **Copy cURL / Copy JSON now work in Firefox older than v113** and any browser without `window.event`. The button is now passed explicitly via `this` in the inline `onclick`; previously the fallback path silently swallowed a `ReferenceError` and left the button stuck.
+- **Copy buttons no longer flicker on rapid double-click.** The pending revert timer is cancelled before scheduling a new one.
+- **cURL output now properly escapes single quotes** in URLs and header values (`postData` was already escaped). Curl output for a request to a URL containing `'` is now valid shell.
+- **`FileReader.onerror` handler.** If reading the file itself fails (unreadable disk, permission error), the spinner is cleared and a clear error is shown instead of leaving the UI hung.
+- **Malformed HAR entries are filtered, not fatal.** Entries missing required fields (`request`, `request.url`, `response.content`) are skipped at parse time rather than failing the whole file. If every entry is malformed, a clear error is shown.
+- **Sequential view: invalid `startedDateTime` sorts to the end** of the list, instead of being treated as Unix epoch 1970 and pushed to the top.
+- **Negative or unknown request times are shown as `n/a`** instead of `-1ms`.
+- **Clear button now resets the Highlight matches checkbox** alongside the rest of the state.
+- **Stat cards (Total / Errors / Slow / Endpoints) all reflect the active filter together.** Clicking the Errors card now narrows every count to only matching entries; previously only Endpoints narrowed and the rest stayed at the pre-filter values.
+- **Status 0 (network failure) counts as an error.** HAR entries with a status of 0 — blocked, CORS-rejected, DNS-failed, or aborted before any response — are now classified as errors, matched by the Errors filter, badged in red, and documented in the Status Codes tab.
+- **Filtered/Full and Grouped/Sequential toggle buttons keep their active gradient in both states.** Previously the gradient only showed in the default state, making the button look disabled in the alternate state.
+- **File picker now rejects non-`.har` files** with a clear error message, matching the existing drag-and-drop validation. Both checks are now case-insensitive (`.HAR` works on Windows).
+- **Documentation Features tab** now lists all 1.4 features (Inline Headers, Sequential Layout, Per-Call Timestamps, Export Summary & Copy with HTTP/HTTPS support).
+- **Accessibility:** icon-only floating buttons (theme picker, about, scroll-to-top) now have `aria-label` and `title` attributes so screen readers and tooltips announce them properly.
+
 ## 1.4
 - **Request and Response headers** are now displayed inline on every API call card. Collapsible sections (collapsed by default) reveal a name/value table for each. Trace-ID-style headers (`x-trace-id`, `x-request-id`, `x-correlation-id`, `x-amzn-requestid`, `cf-ray`, etc.) are visually highlighted so they're easy to spot.
 - **Sequential layout mode.** New toggle in the controls bar — 📚 Grouped ↔ ⏱ Sequential. Sequential view sorts entries by `startedDateTime` and renders them as a flat chronological list. Honors all existing filters (errors, slow, method, search). Caps at 500 entries with a "refine filters to see more" banner for very large HARs.
