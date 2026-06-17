@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented here. The app is a single-file HTML utility, so version bumps are tied to UI/UX fixes and feature polish.
 
+## 1.5.1
+
+- **Copy as cURL now uses `--data-raw` instead of `--data`.** A request body is reproduced verbatim; a body beginning with `@` is no longer interpreted by curl as a read-from-local-file instruction. Fixes an inaccurate reproduction and a latent footgun where replaying an exported command from an untrusted HAR could read a local file. (A leading `<` was never affected.)
+- **Copy as cURL strips carriage-returns/newlines from header lines**, so a crafted header value can no longer inject an extra header into the reproduced request. Real captured HARs never contain this; it only affects hand-crafted files.
+- **Trace-ID header highlight no longer mis-flags `x-requested-with`** (and similar `requested-*` headers). Genuine trace headers — `traceparent`, `x-request-id`, `x-correlation-id`, `cf-ray` — still highlight.
+
 ## 1.5.0
 
 The major feature of this release is **full Prisma Cloud Compute (CWP) support**, including self-hosted Twistlock consoles.
