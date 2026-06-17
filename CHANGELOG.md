@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented here. The app is a single-file HTML utility, so version bumps are tied to UI/UX fixes and feature polish.
 
+## 1.5.0
+
+The major feature of this release is **full Prisma Cloud Compute (CWP) support**, including self-hosted Twistlock consoles.
+
+- **Full CWP module coverage.** All 36 Prisma Cloud Compute resource groups now get a category label on every API call card: Containers, Images, Hosts, Defenders, WAAS, Agentless, Serverless, Policies, Audits, Registry, Profiles, Collections, Credentials, Settings, Custom Rules, Custom Compliance, Scans, SBOM, Threat Feeds, App Control, Cloud Scan, Code Repos CI, TAS, Trust, Users, Groups, Tags, Utilities, Statistics, Statuses, Certificates, Sandbox, Signup, Current User, Virtual Machines, and Health.
+- **pan.dev/compute/api documentation links.** Every recognised Compute endpoint now shows a direct link to its reference page on pan.dev. The link is generated from the HTTP method and resource path with ID segments stripped, covering the full `/api/v<version>/<resource>` surface across all supported Compute versions (v32–v34+).
+- **Twistlock domain support.** `*.twistlock.com` hosts are now treated as a first-class allowed domain alongside `prismacloud.io` and `paloaltonetworks.com`. Compute calls from self-hosted or SaaS consoles on a twistlock domain surface in filtered view without needing to switch to Full HAR.
+- **Custom-console detection.** Compute API calls on any hostname that uses the `/api/v<version>/<resource>` path pattern are detected and surfaced even when the hostname is not in the allowlist. This covers air-gapped or enterprise-hosted Compute consoles on arbitrary domains.
+- **Auto-theme updated.** Loading a HAR that contains Twistlock URLs or Compute API calls now automatically switches to the Prisma Cloud theme, matching existing behaviour for `prismacloud.io` traffic.
+- **Cortex `get_notifications_changes` surfaces again.** The default-view noise filter for the `get_notifications` polling endpoint was a prefix match that silently also suppressed `get_notifications_changes`. It is now narrowed to the base endpoint only, so `_changes` (and any other `_*` variant) appears in filtered view and carries a **Notifications** label chip.
+- **Roadmap updated.** CWP coverage and extended Compute API doc links marked as shipped.
+
 ## 1.4.5
 - **Security: response bodies, request URLs, and `mimeType` strings are now HTML-escaped** before rendering. Previously, a HAR file that contained `<script>` or attribute-breakout HTML in any of those fields could execute when the corresponding endpoint group was expanded, breaking the "no data leaves the browser" guarantee.
 - **Search now matches literal text** instead of treating dots, slashes, and other regex metacharacters as wildcards. The `escapeRegExp` helper was double-escaping its replacement string, so searches containing `.`, `/`, `?`, `(`, etc. silently returned zero hits.

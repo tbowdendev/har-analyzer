@@ -14,8 +14,9 @@
 
 | Platform | Domain | Coverage |
 |---|---|---|
-| **Cortex Cloud** | `*.paloaltonetworks.com` | CSPM fully supported. XSIAM, XDR, CAS, CWP, CIEM in progress. |
-| **Prisma Cloud** | `*.prismacloud.io` | All core modules supported. DSPM, CAS, and CWP coverage expanding. |
+| **Cortex Cloud** | `*.paloaltonetworks.com` | CSPM fully supported. XSIAM, XDR, and CAS coverage expanding. |
+| **Prisma Cloud** | `*.prismacloud.io` | All core modules supported — CSPM, CIEM, CAS, and CWP (Compute). |
+| **Prisma Cloud Compute (CWP)** | `*.twistlock.com` · any self-hosted console | Fully supported. All 36 Compute resource groups labelled with direct pan.dev/compute/api links. |
 
 ---
 
@@ -23,14 +24,14 @@
 
 **📂 Core**
 - Drag-and-drop or browse to load HAR files — all processing stays in the browser
-- Smart filtering: static assets, fonts, browser extensions, and Cortex background noise hidden by default
+- Smart filtering: static assets, fonts, browser extensions, and background noise hidden by default
 - Toggle **Full HAR View** to see every request in the file
 - Endpoint grouping with lazy-rendered call details
 - UUID/ID normalisation groups parametrised routes together
 
 **🔬 Inspection**
-- Per-call product-area label chip (e.g. `XQL Query`, `CIEM`, `Cloud Workload Protection`)
-- Direct link to the [pan.dev](https://pan.dev) API reference page for each recognized CSPM endpoint
+- Per-call product-area label chip (e.g. `XQL Query`, `CIEM`, `CWP Containers`, `CWP WAAS`)
+- Direct link to the [pan.dev](https://pan.dev) API reference page for each recognised CSPM and Compute endpoint
 - Response body viewer with JSON syntax highlighting and copy-to-clipboard
 - Payload viewer for request bodies
 - Copy request as **cURL** command
@@ -47,8 +48,20 @@
 - Markdown summary export
 - 3 themes with persisted preference — Cortex Cloud, Prisma Cloud, PANW Orange
 - Theme-matched favicon and header logo that swap automatically
+- Auto-theme detection: Cortex, Prisma, or Twistlock/Compute traffic switches the theme on load
 - About, Documentation (Status Codes / Features / Roadmap), and retro Changelog modals
 - Floating utility buttons (scroll-to-top, theme picker, about)
+
+---
+
+## 🛡️ Prisma Cloud Compute (CWP) Support
+
+HAR Analyzer 1.5 adds full coverage for the Prisma Cloud Compute API (formerly Twistlock):
+
+- **All 36 resource groups labelled** — Containers, Images, Hosts, Defenders, WAAS, Agentless, Serverless, Policies, Audits, Registry, Profiles, Collections, Credentials, Settings, Custom Rules, Custom Compliance, Scans, SBOM, Threat Feeds, and more
+- **Direct pan.dev/compute/api links** on every recognised Compute endpoint
+- **Domain support**: `*.twistlock.com`, `*.prismacloud.io`, and any custom/self-hosted Compute console — detected by the `/api/v<version>/<resource>` URL pattern
+- **Auto-theme**: loading a Twistlock or Compute HAR automatically switches to the Prisma Cloud theme
 
 ---
 
@@ -58,7 +71,7 @@
 2. Drop a `.har` file or click the upload zone
 3. Use the stat cards, method filters, and search to narrow results
 4. Click an endpoint group to expand individual calls; expand a call for full detail
-5. Use the product-area chip to identify which Cortex/Prisma module each call belongs to
+5. Use the product-area chip to identify which Cortex/Prisma/Compute module each call belongs to
 6. Export a Markdown summary or copy individual calls as cURL
 
 ---
@@ -67,9 +80,10 @@
 
 | Priority | Item | Status |
 |---|---|---|
-| 1 | Prisma Cloud endpoint coverage — DSPM, CAS, CWP | 🔄 In Progress |
-| 2 | Cortex Cloud endpoint coverage — XSIAM, XDR, CAS | 🔄 In Progress |
-| 3 | Extended API documentation links beyond CSPM | 📋 Planned |
+| ✅ | Prisma Cloud CWP (Compute) — full coverage, pan.dev links, Twistlock support | Shipped in 1.5 |
+| ✅ | Prisma Cloud CSPM, CIEM, CAS — core module coverage | Shipped |
+| 🔄 | Cortex Cloud modules — XSIAM, XDR, CAS | In Progress |
+| 🔄 | Extended doc links — CIEM, Code Security beyond CSPM/CWP | In Progress |
 
 ---
 
@@ -77,4 +91,5 @@
 
 - ✅ Runs fully offline — no network calls, no telemetry
 - ✅ Works best on up-to-date Chrome, Edge, Firefox, or Safari
-- ✅ Category mapping built from **166 normalised endpoint patterns** across **14 real HAR files**
+- ✅ CWP category mapping covers all 36 resource groups from the Compute API (v32–v34+)
+- ✅ CSPM category mapping built from **166 normalised endpoint patterns** across **14 real HAR files**
