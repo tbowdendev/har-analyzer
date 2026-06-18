@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here. The app is a single-file HTML utility, so version bumps are tied to UI/UX fixes and feature polish.
 
+## 1.5.2
+
+- **Security (XSS hardening): the HTTP method and status code are now HTML-escaped** on every call card. A crafted HAR whose `request.method` or `response.status` contained HTML could previously inject markup into the card (and a crafted status string could break out of the status tooltip attribute). Both are now escaped, matching the existing treatment of URLs, bodies, and headers.
+- **Security (XSS hardening): endpoint group headers no longer build an inline `onclick` from the endpoint key.** Group expansion is now wired through a single delegated event listener that reads the escaped `data-endpoint`, so a URL path containing quotes can no longer break out into the click handler. (HTML-escaping alone would not have fixed this, because the inline-handler value is HTML-decoded before it executes.)
+- **Security (XSS hardening): the pan.dev documentation link is HTML-escaped**, closing an attribute breakout that was reachable through an unescaped method.
+- No change to displayed output or behaviour for well-formed HARs; these are defense-in-depth fixes against malicious HAR files.
+
 ## 1.5.1
 
 - **Copy as cURL now uses `--data-raw` instead of `--data`.** A request body is reproduced verbatim; a body beginning with `@` is no longer interpreted by curl as a read-from-local-file instruction. Fixes an inaccurate reproduction and a latent footgun where replaying an exported command from an untrusted HAR could read a local file. (A leading `<` was never affected.)
